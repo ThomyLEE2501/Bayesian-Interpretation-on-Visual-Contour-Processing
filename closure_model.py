@@ -11,25 +11,25 @@ import numpy as np
 from PIL import Image, ImageDraw
 from scipy.special import logsumexp
 
-FACTOR_NAMES = ("head shape", "ear shape", "eye spacing", "nose shape", "layout", "contour")
+FACTOR_NAMES = ("head shape", "ear shape", "eye spacing", "nose shape", "layout", "eye shape")
 FACTOR_VALUES = (
     ("round", "wide", "tall"),
     ("round", "pointed", "long"),
     ("narrow", "medium", "wide"),
     ("triangle", "round", "muzzle"),
     ("aligned", "lowered", "scrambled"),
-    ("closed", "open"),
+    ("dots", "arches", "oval pupils"),
 )
 CARDINALITIES = tuple(map(len, FACTOR_VALUES))
 CLASS_NAMES = ("cow-like", "cat-like", "human-like")
 PRIOR_NAMES = ("uniform", "generic", "category", "exemplar")
 PRIOR_LABELS = {
     "uniform": "Uniform vocabulary",
-    "generic": "Layout + closure",
+    "generic": "Layout prior",
     "category": "Latent categories",
     "exemplar": "Training exemplars",
 }
-GROUPS = {"outline": (0, 5), "ears": (1,), "eyes": (2, 4), "nose": (3, 4)}
+GROUPS = {"outline": (0,), "ears": (1,), "eyes": (2, 4, 5), "nose": (3, 4)}
 
 
 def normalize_logp(values):
@@ -45,9 +45,9 @@ def render_state(state, size=40):
     """Binary line drawing. All geometry and primitive restrictions are explicit.
 
     These are cartoons, not thresholded photographs or a learned visual encoder.
-    The open-outline and scrambled-layout options are legitimate hypotheses.
+    All head outlines are closed. Eye shape and layout vary independently.
     """
-    head, ears, gap, nose, layout, contour = map(int, state)
+    head, ears, gap, nose, layout, eye_shape = map(int, state)
     im = Image.new("L", (size, size), 0)
     d = ImageDraw.Draw(im)
     scale = size - 1
@@ -75,11 +75,7 @@ def render_state(state, size=40):
             d.line(pp + pp[:1], fill=1, width=width)
 
     bounds = ((.20, .18, .80, .94), (.10, .24, .90, .90), (.27, .12, .73, .96))[head]
-    if contour == 0:
-        d.ellipse(box(bounds), outline=1, width=width)
-    else:
-        # A genuinely absent arc, not an occluded closed outline.
-        d.arc(box(bounds), start=55, end=305, fill=1, width=width)
+    d.ellipse(box(bounds), outline=1, width=width)
 
     eye_dx = (.11, .17, .23)[gap]
     eye_y = (.43, .51, .34)[layout]
@@ -87,7 +83,14 @@ def render_state(state, size=40):
     for side in (-1, 1):
         x = .5 + side * eye_dx
         y = .63 if layout == 2 and side == 1 else eye_y
-        d.ellipse(box((x-r, y-r, x+r, y+r)), fill=1)
+        if eye_shape == 0:
+            d.ellipse(box((x-r, y-r, x+r, y+r)), fill=1)
+        elif eye_shape == 1:
+            d.arc(box((x-.06, y-.05, x+.06, y+.05)),
+                  start=180, end=360, fill=1, width=width)
+        else:
+            d.ellipse(box((x-.06, y-.08, x+.06, y+.08)), outline=1, width=width)
+            d.line(points(((x, y-.08), (x, y+.08))), fill=1, width=width)
     ny = (.64, .69, .37)[layout]
     if nose == 0:
         d.polygon(points(((.44, ny-.04), (.56, ny-.04), (.50, ny+.045))), fill=1)
@@ -120,7 +123,8 @@ def make_library(size=40, seed=7, test_fraction=.25):
     order = rng.permutation(len(states))
     n_test = round(test_fraction * len(states))
     test_ids, train_ids = np.sort(order[:n_test]), np.sort(order[n_test:])
-    modes = ((1, 2, 2, 2, 0, 0), (0, 1, 1, 0, 0, 0), (2, 0, 0, 1, 0, 0))
+    # Preferred eyes: cow dots, cat oval pupils, human arches.
+    modes = ((1, 2, 2, 2, 0, 0), (0, 1, 1, 0, 0, 2), (2, 0, 0, 1, 0, 1))
     teacher = []
     for mode in modes:
         lp = np.zeros(len(states))
@@ -129,8 +133,6 @@ def make_library(size=40, seed=7, test_fraction=.25):
             probs[mode[j]] = .72
             if j == 4:
                 probs = np.array([.76, .20, .04])
-            if j == 5:
-                probs = np.array([.90, .10])
             lp += np.log(probs[states[:, j]])
         teacher.append(normalize_logp(lp))
     return Library(states, images, train_ids, test_ids, np.stack(teacher))
@@ -167,10 +169,8 @@ def fit_priors(library, training_ids, training_labels, smoothing=1., exemplar_pr
     if not set(training_ids).issubset(set(library.train_ids)):
         raise ValueError("Training ids must belong to the training split.")
     samples = states[training_ids]
-    generic = np.zeros(len(states))
-    for j in (4, 5):
-        counts = np.bincount(samples[:, j], minlength=CARDINALITIES[j]) + smoothing
-        generic += np.log(counts / counts.sum())[states[:, j]]
+    layout_counts = np.bincount(samples[:, 4], minlength=CARDINALITIES[4]) + smoothing
+    generic = np.log(layout_counts / layout_counts.sum())[states[:, 4]]
     class_lp = []
     for c in range(len(CLASS_NAMES)):
         subset = samples[training_labels == c]

@@ -17,6 +17,7 @@ from closure_model import (
     fit_priors,
     make_library,
     observe,
+    render_state,
     sample_training,
     sample_trials,
 )
@@ -38,6 +39,8 @@ class LibraryAndPriorTests(unittest.TestCase):
         cls.priors = fit_priors(cls.library, cls.training_ids, cls.labels)
 
     def test_renderer_has_binary_pixels_and_complete_factor_vocabulary(self):
+        self.assertEqual(CARDINALITIES, (3, 3, 3, 3, 3, 3))
+        self.assertEqual(len(self.library.states), 729)
         self.assertEqual(len(self.library.states), int(np.prod(CARDINALITIES)))
         self.assertEqual(self.library.images.shape, (len(self.library.states), 24, 24))
         self.assertTrue(np.isin(self.library.images, [0, 1]).all())
@@ -63,13 +66,27 @@ class LibraryAndPriorTests(unittest.TestCase):
                 self.assertTrue(np.isfinite(logprior).all())
                 self.assertAlmostEqual(float(np.exp(logprior).sum()), 1.0)
 
-    def test_generic_prior_ignores_morphology_given_layout_and_contour(self):
+    def test_generic_prior_ignores_morphology_given_layout(self):
         states = self.library.states
         generic = self.priors.logpriors["generic"]
         for layout in range(CARDINALITIES[4]):
-            for contour in range(CARDINALITIES[5]):
-                selected = generic[(states[:, 4] == layout) & (states[:, 5] == contour)]
-                np.testing.assert_allclose(selected, selected[0], atol=1e-12)
+            selected = generic[states[:, 4] == layout]
+            np.testing.assert_allclose(selected, selected[0], atol=1e-12)
+
+    def test_eye_shapes_are_distinguishable_for_each_other_factor_combination(self):
+        for size in (24, 40):
+            for factors in itertools.product(range(3), repeat=5):
+                images = np.stack([render_state((*factors, eye), size) for eye in range(3)])
+                with self.subTest(size=size, factors=factors):
+                    self.assertEqual(len(np.unique(images.reshape(3, -1), axis=0)), 3)
+
+    def test_generator_associates_eye_shapes_with_requested_categories(self):
+        for category, preferred_eye in enumerate((0, 2, 1)):
+            probabilities = np.exp(self.library.teacher_logp[category])
+            marginal = np.bincount(self.library.states[:, 5], weights=probabilities, minlength=3)
+            expected = np.full(3, .14)
+            expected[preferred_eye] = .72
+            np.testing.assert_allclose(marginal, expected, atol=1e-12)
 
     def test_prior_fitting_does_not_read_generator_probabilities(self):
         changed = make_library(size=24, seed=7)

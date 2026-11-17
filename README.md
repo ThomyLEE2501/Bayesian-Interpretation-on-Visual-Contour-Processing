@@ -5,6 +5,11 @@ The first parameter cell controls vector dimensions, prior strength, noise,
 visibility, and number of trials. No network, API key, or GPU is needed.
 
 The notebook tests completion and invented contours in synthetic binary cartoons.
+Six three-valued factors give 729 recipes. Eye shape can be dots, arches, or oval
+outlines with vertical pupils. The generator favors dots for cows, oval pupils for
+cats, and arches for humans, with probability 0.72 for the preferred shape.
+Head outlines are always closed. The generic prior
+models layout, and an identical-observation control tests ambiguity in hidden eyes.
 It learns priors from separate training configurations and keeps the test category
 hidden. Four prior families share the same candidate vocabulary. VSA-compressed
 image evidence is compared with an exact pixel baseline; dense and VSA-encoded

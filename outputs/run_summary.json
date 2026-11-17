@@ -1,11 +1,51 @@
 {
-  "candidates": 486,
-  "held_out_combinations": 122,
+  "candidates": 729,
+  "factor_names": [
+    "head shape",
+    "ear shape",
+    "eye spacing",
+    "nose shape",
+    "layout",
+    "eye shape"
+  ],
+  "factor_values": [
+    [
+      "round",
+      "wide",
+      "tall"
+    ],
+    [
+      "round",
+      "pointed",
+      "long"
+    ],
+    [
+      "narrow",
+      "medium",
+      "wide"
+    ],
+    [
+      "triangle",
+      "round",
+      "muzzle"
+    ],
+    [
+      "aligned",
+      "lowered",
+      "scrambled"
+    ],
+    [
+      "dots",
+      "arches",
+      "oval pupils"
+    ]
+  ],
+  "held_out_combinations": 182,
   "training_examples": 750,
   "benchmark_trials": 27,
   "vsa_dimension": 512,
   "message_dimension": 64,
-  "elapsed_seconds": 9.65,
+  "elapsed_seconds": 14.29,
   "checks_passed": true,
   "scope": "synthetic known-mask closure analogue; not validated on Mooney photographs"
 }
