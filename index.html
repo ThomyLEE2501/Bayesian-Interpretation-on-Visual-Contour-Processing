@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+  <meta name="theme-color" content="#006b67">
+  <title>Face reconstruction study</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="study.css">
+  <script defer src="assets.js"></script><script defer src="study.js"></script>
+</head>
+<body>
+  <header><div class="wordmark"><span class="mark" aria-hidden="true">◐</span> Face reconstruction</div><span id="stage">Session setup</span></header>
+  <main>
+    <section id="setup" class="setup">
+      <div class="intro"><h1>Face reconstruction study</h1>
+        <p>Reconstruct a face from the parts you can see. You’ll learn the six features, then choose a recipe for each of 50 masked faces.</p>
+        <div id="sample-faces" class="sample-faces" aria-label="Example face drawings"></div>
+      </div>
+      <form id="settings" class="settings">
+        <h2>Set up a session</h2>
+        <div class="two"><label>Participant name or ID<input id="subject" required maxlength="60" autocomplete="off"></label>
+        <label>Session number<input id="number" type="number" min="1" max="999999" step="1" value="1" required></label></div>
+        <fieldset><legend>Save results</legend>
+          <button type="button" id="pick" class="secondary">Choose local folder</button>
+          <p id="destination" role="status">Choose a folder for the trial images and CSV.</p>
+          <label class="check"><input type="checkbox" id="zip-mode"> Download a session ZIP instead</label>
+        </fieldset>
+        <details><summary>Experiment settings</summary>
+          <label class="check"><input type="checkbox" checked id="hints-on"> Give semantic hints</label>
+          <div class="two"><label>Minimum hints<input id="min" type="number" min="0" max="6" step="1" value="0" required></label>
+          <label>Maximum hints<input id="max" type="number" min="0" max="6" step="1" value="6" required></label></div>
+          <label>Chance a hint is correct<input id="chance" type="number" min="0" max="1" step="any" placeholder="Blank = sample correct counts uniformly"></label>
+          <label class="check"><input type="checkbox" id="disclose" checked> Show correct and incorrect hint totals</label>
+          <label>Session seed <small>(optional)</small><input id="seed" type="number" min="0" max="4294967295" step="1"></label>
+        </details>
+        <button class="primary" id="start">Start session</button>
+      </form>
+    </section>
+    <section id="guide" hidden><h1 tabindex="-1"></h1><p></p><img class="guide-image" alt=""><nav><button id="guide-next" class="primary"></button></nav></section>
+    <section id="trial" hidden><h1 tabindex="-1"></h1><p id="instructions"></p>
+      <div class="trial-grid"><div class="evidence"><canvas id="observed" width="40" height="40" aria-label="Masked and noisy face"></canvas>
+        <strong id="visible"></strong><p id="hints"></p></div>
+        <form id="recipe"><div id="choices"></div><nav><button id="confirm" class="primary" disabled>Confirm recipe</button></nav></form></div>
+    </section>
+    <section id="feedback" hidden><h1 tabindex="-1">Trial feedback</h1><p>Compare your reconstruction with the original face.</p>
+      <canvas class="sheet" id="comparison" width="1080" height="480" aria-label="Masked image, your choice and the original face"></canvas>
+      <nav><button class="primary" id="next">Next trial</button></nav></section>
+    <section id="complete" hidden><h1 tabindex="-1">Session complete</h1><p id="result"></p>
+      <canvas class="sheet" id="summary" width="1000" height="500" aria-label="Feature recovery by visibility and hint count"></canvas></section>
+    <p class="error" role="alert" id="error"></p>
+    <div id="save-actions" hidden><button class="secondary" id="download">Download session ZIP</button></div>
+    <noscript>This experiment requires JavaScript in your browser.</noscript>
+  </main>
+</body>
+</html>
