@@ -6,6 +6,9 @@ const faces = Uint8Array.from(atob(data.faces), c => c.charCodeAt(0));
 const keys = data.names.map(name => name.replaceAll(" ", "_"));
 const files = new Map();
 const rows = [];
+const visibilityBoundaries = [20,35,60];
+const visibilityLabels = ["<20%","20–<35%","35–<60%","≥60%"];
+const totalTrials = 50, blockCount = 64;
 let parentDir, sessionDir, session, folderName, pending, started, busy = false, finished = false;
 let startAttempt, currentEvidence;
 
@@ -55,6 +58,14 @@ function shuffled(values,rng) {
   }
   return a;
 }
+function visibilityBand(percent) {
+  return visibilityBoundaries.filter(boundary=>percent>=boundary).length;
+}
+function balancedDraw(values,count,rng) {
+  const draws=[];
+  while(draws.length<count) draws.push(...shuffled(values,rng).slice(0,count-draws.length));
+  return shuffled(draws,rng);
+}
 function evidenceFor(t) {
   const blockBits = decodeBits(t.visible_blocks), observedBits = decodeBits(t.observed_bits);
   const mask = new Uint8Array(1600), observed = new Uint8Array(1600);
@@ -74,18 +85,19 @@ function makePlan(config) {
   const [low,high]=config.hint_range;
   const totals=Array.from({length:high-low+1},(_,i)=>i+low);
   const conditions=[];
-  for (const visibility of data.visibility) {
-    const noises=shuffled([...data.noise,...data.noise],rng);
-    const counts=[];
-    while (counts.length<noises.length) counts.push(...shuffled(totals,hintRng));
-    const hintTotals=shuffled(counts.slice(0,noises.length),hintRng);
-    noises.forEach((noise,i)=>conditions.push({visibility,noise,total:hintTotals[i]}));
-  }
-  return shuffled(conditions,rng).map(({visibility,noise,total},i)=>{
+  const noises=data.noise.filter(noise=>noise<=config.noise_cap);
+  config.visibility_counts.forEach((count,band)=>{
+    const allowed=Array.from({length:blockCount},(_,i)=>i+1).filter(n=>visibilityBand(100*n/blockCount)===band);
+    const visibleCounts=balancedDraw(allowed,count,rng);
+    const noiseLevels=balancedDraw(noises,count,rng);
+    const hintTotals=balancedDraw(totals,count,hintRng);
+    visibleCounts.forEach((visible,i)=>conditions.push({visible,noise:noiseLevels[i],total:hintTotals[i]}));
+  });
+  return shuffled(conditions,rng).map(({visible,noise,total},i)=>{
     const id=ids[i], state=recipe(id);
     const stimulusSeed=Math.floor(rng()*2**32), cueSeed=Math.floor(rng()*2**32);
     const imgRng=random(stimulusSeed), cueRng=random(cueSeed);
-    const blocks=Array.from({length:64},()=>Number(imgRng()<visibility));
+    const blocks=shuffled(Array.from({length:blockCount},(_,j)=>Number(j<visible)),imgRng);
     const observed=Array.from({length:1600},(_,p)=>{
       const flip=Number(imgRng()<noise), block=Math.floor(p/200)*8+Math.floor((p%40)/5);
       return blocks[block] ? faceBit(id,p)^flip : 0;
@@ -95,7 +107,7 @@ function makePlan(config) {
     const wrong=state.map(v=>(v+1+Math.floor(cueRng()*2))%3);
     const cues=Array(6).fill(-1);
     shuffled([0,1,2,3,4,5],cueRng).slice(0,total).forEach((j,k)=>{cues[j]=k<correct?state[j]:wrong[j];});
-    return {trial:i+1,state_id:id,visibility,noise,cues_given:total,correct_cues:correct,
+    return {trial:i+1,state_id:id,visibility:visible/blockCount,noise,cues_given:total,correct_cues:correct,
       hint_counts_shown:config.show_hint_counts,stimulus_seed:stimulusSeed,cue_seed:cueSeed,
       visible_blocks:encodeBits(blocks),observed_bits:encodeBits(observed),cue_values:cues};
   });
@@ -109,7 +121,7 @@ function csv(records) {
 function score(t,choice,ev,seconds) {
   const truth=recipe(t.state_id);
   const row={trial:t.trial,state_id:t.state_id,renderer_version:data.version,
-    stimulus_seed:t.stimulus_seed,cue_seed:t.cue_seed,visibility_pct:Math.round(100*t.visibility),
+    stimulus_seed:t.stimulus_seed,cue_seed:t.cue_seed,visibility_pct:100*t.visibility,
     actual_visibility_pct:ev.visible/16,noise_pct:Math.round(100*t.noise),visible_pixels:ev.visible,flipped_pixels:ev.flips,
     flipped_pct:ev.visible ? 100*ev.flips/ev.visible : "",cues_given:t.cues_given,correct_cues:t.correct_cues,
     incorrect_cues:t.cues_given-t.correct_cues,hint_counts_shown:Number(t.hint_counts_shown),
@@ -139,15 +151,16 @@ function makeFeedback(t,choice,row) {
 }
 function makeSummary(records) {
   const c=$("summary").getContext("2d");
+  c.textAlign="left";
   c.fillStyle="white";c.fillRect(0,0,1000,500);
   c.fillStyle="#233c43";c.font="bold 25px Arial";c.fillText("Average features recovered",60,40);
-  c.font="18px Arial";c.fillText("Requested visibility",20,76);
+  c.font="18px Arial";c.fillText("Visible pixels",20,76);
   const levels=["#873b18","#b86632","#da8443","#eca15d","#f7c797","#50bfc8","#006b67"];
-  data.visibility.forEach((v,i)=>{
-    const y=90+i*65;
-    c.fillStyle="#233c43";c.fillText(Math.round(100*v)+"%",55,y+32);
+  visibilityLabels.forEach((label,i)=>{
+    const y=94+i*75;
+    c.fillStyle="#233c43";c.fillText(label,42,y+34);
     for(let k=0;k<7;k++){
-      const group=records.filter(r=>r.visibility_pct===Math.round(100*v) && r.correct_cues===k);
+      const group=records.filter(r=>visibilityBand(r.actual_visibility_pct)===i && r.correct_cues===k);
       const mean=group.length ? group.reduce((sum,r)=>sum+r.score,0)/group.length : null;
       c.fillStyle=mean===null ? "#f0f2f0" : levels[Math.round(mean)]; c.fillRect(150+k*115,y,108,56);
       c.fillStyle=mean!==null && (mean<1.5 || mean>=5.5) ? "white" : "#233c43";
@@ -186,16 +199,22 @@ function showTrial() {
   show("trial","Trial "+t.trial+" of 50");
   $("trial").querySelector("h1").textContent="Trial "+t.trial+" of 50";
   $("instructions").textContent="Choose one option in every row to recover the original face. "+
-    (session.cued?"Refer to the hints, but note that some can be incorrect. ":"")+
+    (session.cued?"An underlined option is the hint for that feature. Some hints are incorrect. ":"")+
     "Blue-gray blocks are hidden. Visible black and white pixels can contain noise. Feel free to take an educated guess when too little of the face is visible to decide. Keep in mind the typical combinations you saw at the beginning.";
   currentEvidence=evidenceFor(t);
   drawFace($("observed"),t.state_id,currentEvidence);
   $("visible").textContent=(currentEvidence.visible/16).toFixed(1)+"% visible";
   const phrases=data.order.filter(j=>t.cue_values[j]>=0).map(j=>data.hints[j][t.cue_values[j]]);
-  $("hints").textContent=session.cued ? (phrases.length?"Hints: "+phrases.join(", ")+".":"No hints this trial.")+
-    (t.hint_counts_shown?"\n"+t.correct_cues+" correct · "+(t.cues_given-t.correct_cues)+" incorrect":"") : "";
+  $("hints").hidden=!session.cued;
+  $("hints").textContent=phrases.length?"Hints: "+phrases.join(", ")+".":"No hints this trial.";
+  $("hint-accuracy").hidden=!t.hint_counts_shown;
+  $("hint-accuracy").textContent=`Hint accuracy: ${t.correct_cues} correct, ${t.cues_given-t.correct_cues} incorrect`;
   $("recipe").reset();
-  $("choices").querySelectorAll("input").forEach(input=>{input.disabled=false;});
+  $("choices").querySelectorAll("input").forEach(input=>{
+    input.disabled=false;
+    const feature=Number(input.name.slice("factor".length));
+    input.closest(".option").classList.toggle("hinted",session.cued && t.cue_values[feature]===Number(input.value));
+  });
   $("confirm").disabled=true; $("confirm").textContent="Confirm recipe";
   started=performance.now();
 }
@@ -211,7 +230,9 @@ function setupChoices() {
       card.className="option"; input.type="radio"; input.name="factor"+j; input.value=String(k);
       img.alt=""; img.src=data.icons[j][k];
       const text=value==="oval pupils"?"Oval + vertical pupil":value[0].toUpperCase()+value.slice(1);
-      card.append(input,img,document.createTextNode(text));group.append(card);
+      const caption=document.createElement("span");
+      caption.className="option-text";caption.textContent=text;
+      card.append(input,img,caption);group.append(card);
     });
     $("choices").append(group);
   }
@@ -238,6 +259,10 @@ async function start(e) {
   e.preventDefault(); if(busy)return;
   const subject=$("subject").value.trim(), number=Number($("number").value);
   const cued=$("hints-on").checked, low=Number($("min").value), high=Number($("max").value);
+  const visibilityCounts=Array.from(document.querySelectorAll("[data-visibility-count]"),input=>input.valueAsNumber);
+  if(visibilityCounts.some(n=>!Number.isInteger(n)||n<0) || visibilityCounts.reduce((a,b)=>a+b,0)!==totalTrials){
+    report(new Error("Enter four nonnegative visibility counts that total 50."));return;
+  }
   if(!/^[\p{L}\p{N}_ -]{1,60}$/u.test(subject) || !/[\p{L}\p{N}]/u.test(subject)){
     report(new Error("Use letters, numbers, spaces, underscores or hyphens for the participant ID."));return;
   }
@@ -247,7 +272,8 @@ async function start(e) {
   busy=true; $("start").disabled=true; $("error").textContent="";
   try{
     const seed=$("seed").value==="" ? crypto.getRandomValues(new Uint32Array(1))[0] : Number($("seed").value);
-    const cfg={subject,session:number,seed,cued,renderer_version:data.version,protocol:"browser-v1",
+    const cfg={subject,session:number,seed,cued,renderer_version:data.version,protocol:"browser-v2",
+      visibility_counts:visibilityCounts,noise_cap:Number($("noise-cap").value)/100,
       hint_range:cued?[low,high]:[0,0],hint_accuracy:$("chance").value===""?null:Number($("chance").value),
       show_hint_counts:cued && $("disclose").checked};
     folderName=subject+"_session_"+String(number).padStart(3,"0");

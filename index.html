@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#006b67">
   <title>Face reconstruction study</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="study.css">
-  <script defer src="assets.js"></script><script defer src="study.js"></script>
+  <link rel="stylesheet" href="study.css?v=2">
+  <script defer src="assets.js"></script><script defer src="study.js?v=2"></script>
 </head>
 <body>
   <header><div class="wordmark"><span class="mark" aria-hidden="true">◐</span> Face reconstruction</div><span id="stage">Session setup</span></header>
@@ -28,6 +28,22 @@
           <label class="check"><input type="checkbox" id="zip-mode"> Download a session ZIP instead</label>
         </fieldset>
         <details><summary>Experiment settings</summary>
+          <fieldset><legend>Trials by visible area</legend>
+            <p class="setting-help" id="visibility-help">Counts must total 50. The bands use the percentage of pixels actually shown.</p>
+            <div class="two" aria-describedby="visibility-help">
+              <label>Under 20%<input type="number" data-visibility-count min="0" max="50" step="1" value="5" required></label>
+              <label>20% to under 35%<input type="number" data-visibility-count min="0" max="50" step="1" value="10" required></label>
+              <label>35% to under 60%<input type="number" data-visibility-count min="0" max="50" step="1" value="20" required></label>
+              <label>60% and above<input type="number" data-visibility-count min="0" max="50" step="1" value="15" required></label>
+            </div>
+            <label>Maximum pixel-flip probability
+              <select id="noise-cap">
+                <option value="2">2%</option><option value="5">5%</option>
+                <option value="10">10%</option><option value="15">15%</option>
+                <option value="20" selected>20%</option>
+              </select>
+            </label>
+          </fieldset>
           <label class="check"><input type="checkbox" checked id="hints-on"> Give semantic hints</label>
           <div class="two"><label>Minimum hints<input id="min" type="number" min="0" max="6" step="1" value="0" required></label>
           <label>Maximum hints<input id="max" type="number" min="0" max="6" step="1" value="6" required></label></div>
@@ -41,7 +57,7 @@
     <section id="guide" hidden><h1 tabindex="-1"></h1><p></p><img class="guide-image" alt=""><nav><button id="guide-next" class="primary"></button></nav></section>
     <section id="trial" hidden><h1 tabindex="-1"></h1><p id="instructions"></p>
       <div class="trial-grid"><div class="evidence"><canvas id="observed" width="40" height="40" aria-label="Masked and noisy face"></canvas>
-        <strong id="visible"></strong><p id="hints"></p></div>
+        <strong id="visible"></strong><p id="hint-accuracy" hidden></p><p id="hints" hidden></p></div>
         <form id="recipe"><div id="choices"></div><nav><button id="confirm" class="primary" disabled>Confirm recipe</button></nav></form></div>
     </section>
     <section id="feedback" hidden><h1 tabindex="-1">Trial feedback</h1><p>Compare your reconstruction with the original face.</p>
