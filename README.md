@@ -5,7 +5,7 @@ Look at the image before reading on. Which patches belong to the same object? Wh
 
 Now look for a **cow’s face**. Once one patch reads as a muzzle, the patches around it can fall into place as parts of the same head. What did the cue contribute if the pixels stayed the same? Can knowing that a patchy image shows a cow change which marks you group into its muzzle? [Dallenbach’s cow puzzle (1951)](https://doi.org/10.2307/1419008)
 
-This project studies a tractable part of these questions. People and a Bayesian model reconstruct the six features of a masked, noisy drawing. Visibility, pixel flips, learned expectations and correct or misleading hints can all be varied. The [daily project log](PROGRESS.md) traces the work from the cow photograph through the pilot results and includes the chat diagrams.
+This project studies a tractable part of these questions. People and a Bayesian model reconstruct the six features of a masked, noisy drawing. Visibility, pixel flips, learned expectations and correct or misleading hints can all be varied.
 
 | Start here | Contents |
 | --- | --- |
@@ -14,6 +14,7 @@ This project studies a tractable part of these questions. People and a Bayesian 
 | [Baseline notebook](vsa_gestalt_closure.ipynb) · [baseline guide](BASELINE.md) | Counted priors, pixel and vector evidence, full-candidate and iterative inference. [Saved runs](outputs/) include the November 16 visibility, targeted-cue and mixed-cue experiments. |
 | [Prior-learning guide](PRIOR_LEARNING.md) | Executed notebooks for [supervised Hebbian](hebbian_learning.ipynb), [competitive Hebbian](competitive_learning.ipynb) and [Hopfield](hopfield_learning.ipynb) learning. [Results](outputs/) include weights, matched comparisons and capped-noise sweeps. |
 | [Human study guide](psychophysicalExperiment/README.md) · [Windows launcher](<psychophysicalExperiment/Start face study.cmd>) | Desktop and [browser experiment](psychophysicalExperiment/web/index.html), response files, feedback images, session schedules and analysis tools. |
+| [Daily project log](PROGRESS.md) | Traces the work progress from the cow photograph through the pilot results and includes the chat diagrams. |
 
 
 ## Working from this directory
