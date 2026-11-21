@@ -9,7 +9,7 @@ Can knowing that a patchy image shows a cow change which marks you group into it
 | [Baseline notebook](vsa_gestalt_closure.ipynb) · [baseline guide](BASELINE.md) | Counted priors, pixel and vector evidence, full-candidate and iterative inference. [Saved runs](outputs/) include the November 16 visibility, targeted-cue and mixed-cue experiments. |
 | [Prior-learning guide](PRIOR_LEARNING.md) | Executed notebooks for [supervised Hebbian](hebbian_learning.ipynb), [competitive Hebbian](competitive_learning.ipynb) and [Hopfield](hopfield_learning.ipynb) learning. [Results](outputs/) include weights, matched comparisons and capped-noise sweeps. |
 | [Human study guide](psychophysicalExperiment/README.md) · [Windows launcher](<psychophysicalExperiment/Start face study.cmd>) | Desktop and [browser experiment](psychophysicalExperiment/web/index.html), response files, feedback images, session schedules and analysis tools. |
-| [Presentation](presentation/VSA_Contour_Completion_revised.pptx) | Latest teaching deck. It describes the November 9 prototype with 486 recipes. The poster and writeup use the later 729-recipe vocabulary. |
+
 
 ## Working from this directory
 
