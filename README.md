@@ -28,5 +28,3 @@ The saved [baseline benchmark](outputs/baseline/benchmark.csv) used renderer ver
 For each experiment, the collection keeps the latest saved run, its inputs or configuration, figures, tables and executed notebooks. The November 16 eye-shape runs replace the November 13 versions. The capped-noise and high-visibility runs cover different conditions, so both are present. The [poster](Poster/) uses set 06 of the seven [sampled recovery examples](outputs/poster/Face_Recovery_Sets/).
 
 The two complete pilot sessions each have 50 responses. The two partial sessions have five and two confirmed responses. The raw session folders stay local under `outputs/psychophysics/participant_sessions/`. The poster pools the complete sessions and applies its two-trial exclusion only to the analysis. The [pooled plot data](outputs/poster/plot_data/human_scatter_data.json) contain the 98 trials used in the poster.
-
-The source folders were `C:\NEU_172L\vsa_gestalt_closure` and `C:\NEU_172L\vsa_gestalt_closure_hebbian`. The revised teaching deck came from their sibling `outputs` folder. Chat figures are embedded or linked in the log.
