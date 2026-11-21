@@ -4,6 +4,7 @@ Look at the image before reading on. Which patches belong to the same object? Wh
 ![Grainy grayscale puzzle photograph in which the contours of a cow’s face are difficult to distinguish.](assets/ambiguous-cow.png)
 
 Now look for a **cow’s face**. Once one patch reads as a muzzle, the patches around it can fall into place as parts of the same head. What did the cue contribute if the pixels stayed the same? Can knowing that a patchy image shows a cow change which marks you group into its muzzle? [Dallenbach’s cow puzzle (1951)](https://doi.org/10.2307/1419008)
+
 This project studies a tractable part of that question. People and a Bayesian model reconstruct the six features of a masked, noisy drawing. Visibility, pixel flips, learned expectations and correct or misleading hints can all be varied. The [daily project log](PROGRESS.md) traces the work from the cow photograph through the pilot results and includes the chat diagrams.
 
 | Start here | Contents |
