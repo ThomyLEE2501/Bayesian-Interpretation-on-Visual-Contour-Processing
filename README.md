@@ -1,50 +1,32 @@
-# A Bayesian account of visual contour completion
+# BayesContourProcessing
 
-Look at the image before reading on. Which patches belong to the same object? Where would you draw its outline?
+Can knowing that a patchy image shows a cow change which marks you group into its muzzle? This project studies a tractable part of that question. People and a Bayesian model reconstruct the six features of a masked, noisy drawing. Visibility, pixel flips, learned expectations and correct or misleading hints can all be varied. The [daily project log](PROGRESS.md) traces the work from the cow photograph through the pilot results and includes the chat diagrams.
 
-![Grainy grayscale puzzle photograph in which the contours of a cow’s face are difficult to distinguish.](assets/ambiguous-cow.png)
+| Start here | Contents |
+| --- | --- |
+| [Poster](Poster/Bayesian_Visual_Contour_Poster_Hebbian_Rule.pptx) | Final editable November 20 poster with model and human results. Its [plot data](outputs/poster/plot_data/) include the filtered human series and the high-visibility model extension. |
+| [Writeup](writeup/closure_experiment.pdf) · [LaTeX](writeup/closure_experiment.tex) | Current 729-recipe design, equations, prior-learning methods, results and encoder proposal. The source figures are beside the TeX file in [figures](writeup/figures/). |
+| [Baseline notebook](vsa_gestalt_closure.ipynb) · [baseline guide](BASELINE.md) | Counted priors, pixel and vector evidence, full-candidate and iterative inference. [Saved runs](outputs/) include the November 16 visibility, targeted-cue and mixed-cue experiments. |
+| [Prior-learning guide](PRIOR_LEARNING.md) | Executed notebooks for [supervised Hebbian](hebbian_learning.ipynb), [competitive Hebbian](competitive_learning.ipynb) and [Hopfield](hopfield_learning.ipynb) learning. [Results](outputs/) include weights, matched comparisons and capped-noise sweeps. |
+| [Human study guide](psychophysicalExperiment/README.md) · [Windows launcher](<psychophysicalExperiment/Start face study.cmd>) | Desktop and [browser experiment](psychophysicalExperiment/web/index.html), response files, feedback images, session schedules and analysis tools. |
+| [Presentation](presentation/VSA_Contour_Completion_revised.pptx) | Latest teaching deck. It describes the November 9 prototype with 486 recipes. The poster and writeup use the later 729-recipe vocabulary. |
 
-Now look for a **cow’s face**. Once one patch reads as a muzzle, the patches around it can fall into place as parts of the same head. What did the cue contribute if the pixels stayed the same? [Dallenbach’s cow puzzle (1951)](https://doi.org/10.2307/1419008)
+## Working from this directory
 
-**This project asks when top-down expectations help us recover a missing contour and when they lead us to invent one.** A related experiment made that change visible on paper. Participants drew the hidden regions of two-tone Mooney images before and after seeing the grayscale originals. Independent judges rated the later drawings as closer to the originals. [Lazarova et al. (2025)](https://doi.org/10.1111/tops.70018)
+Open the notebooks from this directory. The baseline notebook selects batch counting. The [full learned-prior notebook](vsa_gestalt_closure_learned_priors.ipynb) defaults to supervised Hebbian learning and exposes the competitive and Hopfield settings. Both use the same renderer and inference code. With the [dependencies](requirements.txt) installed, run the test suite from here.
 
-[Try the 50-trial browser experiment](https://thomylee2501.github.io/Baysian-Intrepretation-on-Visual-Contour-Processing/) · [Explore the computational notebook](vsa_gestalt_closure.ipynb)
+~~~powershell
+python -m unittest discover
+~~~
 
-## How evidence and expectation combine
+All saved runs live under [outputs](outputs/). The [baseline](outputs/baseline/) and [learned-prior](outputs/learned_priors/) benchmark folders each contain their own metrics, figures and run summary. Named experiment folders hold the sweeps and prior comparisons. [Psychophysics](outputs/psychophysics/) holds the participant sessions and accuracy plots. [Poster data](outputs/poster/) holds the recovery sets and plotted series.
 
-How specific does the cue need to be? “Cow” suggests a familiar combination of features. “Muzzle nose” makes a claim about one part. Revealing the nose outline gives the observer a way to check that claim.
+## Which results were kept
 
-In the model, the visible pixels $I$ and the hints $H$ provide independent evidence given a candidate face $C$ and a known visibility mask $M$.
+The saved [baseline benchmark](outputs/baseline/benchmark.csv) used renderer version 1. The current baseline notebook uses version 2, which adjusts the dot-eye positions. To reproduce the archived CSV, pass `renderer_version=1` to `make_library` in the baseline notebook's library setup cell. The [learned-prior benchmark](outputs/learned_priors/benchmark.csv) uses version 2.
 
-$$
-P(C \mid I,M,H) \propto P(I \mid C,M)\,P(H \mid C)\,P(C).
-$$
+For each experiment, the collection keeps the latest saved run, its inputs or configuration, figures, tables and executed notebooks. The November 16 eye-shape runs replace the November 13 versions. The capped-noise and high-visibility runs cover different conditions, so both are present. The [poster](Poster/) uses set 06 of the seven [sampled recovery examples](outputs/poster/Face_Recovery_Sets/).
 
-The **prior** captures which face recipes are familiar. The **image likelihood** scores how well each recipe predicts the visible strokes and visible background, allowing for noise. The **hint likelihood** accounts for what the observer was told and how reliable it is. Together they give a **posterior** over possible completions. If two recipes differ only behind the mask, the visible pixels give them equal support. Familiarity and hints can still favor one over the other.
+The two complete pilot sessions each have 50 responses. The two partial sessions have five and two confirmed responses. The raw session folders stay local under `outputs/psychophysics/participant_sessions/`. The poster pools the complete sessions and applies its two-trial exclusion only to the analysis. The [pooled plot data](outputs/poster/plot_data/human_scatter_data.json) contain the 98 trials used in the poster.
 
-## Testing the account with drawings
-
-A recipe specifies head shape, ear shape, eye shape, eye spacing, nose shape, and the layout of the parts. Three options per feature give **729 possible faces**. The model learns feature frequencies from labeled cow-like, cat-like, and human-like drawings, then reconstructs held-out combinations from noisy fragments. We supply the feature vocabulary and the mask. How a viewer first groups patches of a photograph into a muzzle remains an open question.
-
-In one controlled simulation, we gave two wrong nose hints per face on three held-out faces. The model’s most probable recipe adopted the hinted nose in **6 of 6** cases when the distinguishing pixels were hidden and **0 of 6** when they were revealed. This gives the human study a specific prediction to test. A small visible patch along the nose outline may matter more for judging nose shape than a large visible patch elsewhere on the face.
-
-## The psychophysical experiment
-
-Participants first see the 18 feature options and a typical face from each category. On each of **50 shuffled trials**, they choose six features to reconstruct a masked, noisy face. By default, they receive zero to six hints and a tally of how many are correct. After confirming, they see the masked image, their reconstruction, and the original side by side.
-
-Accuracy is the number of features recovered out of six. Uniform guessing averages two. The session records the presented pixels, mask, hints, and each choice so the model and participant can be compared on the same trial. Feedback PNGs and the response CSV are saved locally. [Run the study](https://thomylee2501.github.io/Baysian-Intrepretation-on-Visual-Contour-Processing/) · [Browser source](https://github.com/ThomyLEE2501/Baysian-Intrepretation-on-Visual-Contour-Processing/tree/gh-pages)
-
-## Where vector symbolic architectures fit
-
-**Vector symbolic architectures (VSA) are a secondary hypothesis about how the visual system might represent and exchange evidence.** The Bayesian model already works by counting mismatches at visible pixels. The notebook tests a VSA alternative that assigns high-dimensional codes to pixel positions and approximates the mismatch score by the distance between two image vectors. Comparing the two posteriors measures what that encoding preserves and where it introduces error.
-
-Full-candidate inference scores all 729 recipes. It produces a most probable drawing (MAP) and a posterior-mean image whose gray pixels show where plausible drawings disagree. Iterative inference approximates that calculation by updating beliefs one feature at a time. Running the same updates with ordinary or VSA-encoded messages isolates the effect of the representation. [Inference code](vsa_inference.py) · [Hidden-eye control](outputs/eye_shape_control.png)
-
-## Run the simulation
-
-Open the [executed Jupyter notebook](vsa_gestalt_closure.ipynb) to inspect the figures. To rerun it, install the [requirements](requirements.txt) in a Python environment and run all cells. The first parameter cell controls visibility, noise, prior strength, and vector dimension. The [renderer and prior-fitting code](closure_model.py) and [saved benchmark outputs](outputs/) are available separately.
-
-```sh
-python -m pip install -r requirements.txt
-python -m unittest -v test_closure_model
-```
+The source folders were `C:\NEU_172L\vsa_gestalt_closure` and `C:\NEU_172L\vsa_gestalt_closure_hebbian`. The revised teaching deck came from their sibling `outputs` folder. Chat figures are embedded or linked in the log.

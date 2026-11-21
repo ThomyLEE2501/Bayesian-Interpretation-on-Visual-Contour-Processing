@@ -11,7 +11,9 @@ import nbformat
 
 ROOT = Path(__file__).resolve().parent
 os.chdir(ROOT)
-os.environ.setdefault("IPYTHONDIR", str(ROOT / ".jupyter_runtime" / "ipython"))
+ipython_dir = ROOT / ".jupyter_runtime" / "ipython"
+ipython_dir.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("IPYTHONDIR", str(ipython_dir))
 os.environ["MPLBACKEND"] = "module://matplotlib_inline.backend_inline"
 
 from IPython.core.interactiveshell import InteractiveShell
@@ -20,7 +22,7 @@ from matplotlib_inline.backend_inline import configure_inline_support
 
 shell = InteractiveShell.instance()
 configure_inline_support(shell, "module://matplotlib_inline.backend_inline")
-path = ROOT / "vsa_gestalt_closure.ipynb"
+path = ROOT / (sys.argv[1] if len(sys.argv) > 1 else "vsa_gestalt_closure.ipynb")
 notebook = nbformat.read(path, as_version=4)
 count = 0
 for index, cell in enumerate(notebook.cells):
@@ -49,4 +51,11 @@ for index, cell in enumerate(notebook.cells):
     nbformat.write(notebook, path)
 nbformat.validate(notebook)
 print(f"Successfully executed {count} code cells.", flush=True)
-print((ROOT / "outputs" / "run_summary.json").read_text())
+summary_dirs = {
+    "vsa_gestalt_closure.ipynb": "baseline",
+    "vsa_gestalt_closure_learned_priors.ipynb": "learned_priors",
+}
+if path.name in summary_dirs:
+    summary = ROOT / "outputs" / summary_dirs[path.name] / "run_summary.json"
+    if summary.is_file():
+        print(summary.read_text())

@@ -1,0 +1,52 @@
+{
+  "seed": 172,
+  "held_out_faces_per_condition": 64,
+  "candidate_recipes": 729,
+  "renderer_version": 2,
+  "target_flip_pct": [
+    2,
+    5,
+    10,
+    15,
+    20
+  ],
+  "max_realized_flip_pct": 20.0,
+  "flip_scheme": "Uniformly select floor(visible pixels \u00d7 rate) pixels without replacement",
+  "rate_weighting": "equal",
+  "prior_weight": 12.0,
+  "cue_log_bonus": 3.6375861597263857,
+  "target_visible_pct": [
+    10,
+    12,
+    15,
+    18,
+    21,
+    25,
+    30,
+    40,
+    55,
+    70
+  ],
+  "correct_hints": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "hints_per_trial": 6,
+  "competitive_seeds": [
+    0,
+    1,
+    2
+  ],
+  "pooled_mean_correct_features": {
+    "counts": 4.211383928571428,
+    "competitive_0": 4.1678125,
+    "competitive_1": 4.206071428571429,
+    "competitive_2": 4.199107142857143,
+    "competitive_mean": 4.190997023809524
+  }
+}

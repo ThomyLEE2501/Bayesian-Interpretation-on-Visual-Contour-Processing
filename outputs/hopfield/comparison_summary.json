@@ -1,0 +1,28 @@
+{
+  "training_draws": 750,
+  "distinct_training_configurations": 261,
+  "bipolar_units": 18,
+  "inverse_temperature": 1.0,
+  "image_trials": 27,
+  "feature_trials": 36,
+  "known_features": 3,
+  "retrieval_converged_fraction": 1.0,
+  "above_global_minimum_fraction": 0.2777777777777778,
+  "image_metrics": {
+    "uniform": {
+      "hidden_brier": 0.014478705816950578,
+      "hidden_recall": 0.8277045877161383,
+      "hidden_false_positive": 0.003808024705972159
+    },
+    "kernel exemplar": {
+      "hidden_brier": 0.014093779353087973,
+      "hidden_recall": 0.8578641350895344,
+      "hidden_false_positive": 0.00838571788675813
+    },
+    "Hopfield energy": {
+      "hidden_brier": 0.01377717184709665,
+      "hidden_recall": 0.8384461470697382,
+      "hidden_false_positive": 0.005186959306049407
+    }
+  }
+}

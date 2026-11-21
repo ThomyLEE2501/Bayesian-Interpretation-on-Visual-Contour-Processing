@@ -1,0 +1,14 @@
+{
+  "exemplar_learning": "kernel",
+  "hopfield_inverse_temperature": 1.0,
+  "category_learning": "hebbian",
+  "candidates": 729,
+  "held_out_combinations": 182,
+  "training_examples": 750,
+  "benchmark_trials": 27,
+  "vsa_dimension": 512,
+  "message_dimension": 64,
+  "elapsed_seconds": 13.47,
+  "checks_passed": true,
+  "scope": "synthetic known-mask closure analogue; not validated on Mooney photographs"
+}

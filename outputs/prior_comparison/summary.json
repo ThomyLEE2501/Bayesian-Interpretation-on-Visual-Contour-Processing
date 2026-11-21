@@ -1,0 +1,293 @@
+{
+  "config": {
+    "renderer_version": 2,
+    "candidates": 729,
+    "feature_names": [
+      "head shape",
+      "ear shape",
+      "eye spacing",
+      "nose shape",
+      "layout",
+      "eye shape"
+    ],
+    "feature_values": [
+      [
+        "round",
+        "wide",
+        "tall"
+      ],
+      [
+        "round",
+        "pointed",
+        "long"
+      ],
+      [
+        "narrow",
+        "medium",
+        "wide"
+      ],
+      [
+        "triangle",
+        "round",
+        "muzzle"
+      ],
+      [
+        "aligned",
+        "lowered",
+        "scrambled"
+      ],
+      [
+        "dots",
+        "arches",
+        "oval pupils"
+      ]
+    ],
+    "image_size": 40,
+    "library_seed": 7,
+    "training_seed": 11,
+    "training_draws": 750,
+    "trial_seed": 172,
+    "held_out_faces_per_condition": 12,
+    "target_visibility_pct": [
+      10,
+      12,
+      15,
+      18,
+      21,
+      25,
+      30,
+      40,
+      55,
+      70
+    ],
+    "correct_hints": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "hints_per_trial": 6,
+    "hint_tally_disclosed": false,
+    "cue_log_bonus_per_match": 3.6375861597263857,
+    "pixel_flip_probability": 0.05,
+    "evidence": "VSA",
+    "encoder_dim": 512,
+    "encoder_seed": 17,
+    "prior_weight": 12.0,
+    "hopfield_beta": 1.0,
+    "entropy_matched_hopfield_beta": 3.625779216713222,
+    "competitive_seeds": [
+      0,
+      1,
+      2
+    ],
+    "competitive_epochs": 20,
+    "competitive_options": {
+      "n_units": 3,
+      "learning_rate": 0.03,
+      "temperature": 0.7,
+      "homeostasis": 2.0,
+      "usage_rate": 0.02
+    },
+    "competitive_training_uses_labels": false,
+    "verified_poster_baseline_trials": 840
+  },
+  "methods": {
+    "counts": {
+      "mean_correct_features": 4.632142857142857,
+      "exact_accuracy": 0.37142857142857144,
+      "mean_hidden_recall": 0.899918776826055,
+      "mean_hidden_false_positive": 0.01628164695067268,
+      "mean_hidden_error": 0.024860436358444746,
+      "paired_reference": "counts",
+      "changed_recipes": 0,
+      "better_trials": 0,
+      "worse_trials": 0,
+      "feature_accuracy": {
+        "head shape": 0.95,
+        "ear shape": 0.9738095238095238,
+        "eye spacing": 0.5761904761904761,
+        "nose shape": 0.6904761904761905,
+        "layout": 0.8607142857142858,
+        "eye shape": 0.580952380952381
+      },
+      "effective_prior_entropy_nats": 0.4187263631723318
+    },
+    "hebbian": {
+      "mean_correct_features": 4.632142857142857,
+      "exact_accuracy": 0.37142857142857144,
+      "mean_hidden_recall": 0.899918776826055,
+      "mean_hidden_false_positive": 0.01628164695067268,
+      "mean_hidden_error": 0.024860436358444746,
+      "paired_reference": "counts",
+      "changed_recipes": 0,
+      "better_trials": 0,
+      "worse_trials": 0,
+      "feature_accuracy": {
+        "head shape": 0.95,
+        "ear shape": 0.9738095238095238,
+        "eye spacing": 0.5761904761904761,
+        "nose shape": 0.6904761904761905,
+        "layout": 0.8607142857142858,
+        "eye shape": 0.580952380952381
+      },
+      "effective_prior_entropy_nats": 0.4187263631723318
+    },
+    "kernel": {
+      "mean_correct_features": 4.892857142857143,
+      "exact_accuracy": 0.4083333333333333,
+      "mean_hidden_recall": 0.9246877371153863,
+      "mean_hidden_false_positive": 0.011590617546686386,
+      "mean_hidden_error": 0.018236154033469835,
+      "paired_reference": "counts",
+      "changed_recipes": 327,
+      "better_trials": 190,
+      "worse_trials": 81,
+      "feature_accuracy": {
+        "head shape": 0.9726190476190476,
+        "ear shape": 0.9821428571428571,
+        "eye spacing": 0.6011904761904762,
+        "nose shape": 0.8476190476190476,
+        "layout": 0.9369047619047619,
+        "eye shape": 0.5523809523809524
+      },
+      "effective_prior_entropy_nats": 0.002955533202230694
+    },
+    "hopfield": {
+      "mean_correct_features": 5.453571428571428,
+      "exact_accuracy": 0.6654761904761904,
+      "mean_hidden_recall": 0.9605558629620613,
+      "mean_hidden_false_positive": 0.00603422413925216,
+      "mean_hidden_error": 0.009613249804602847,
+      "paired_reference": "kernel",
+      "changed_recipes": 439,
+      "better_trials": 337,
+      "worse_trials": 23,
+      "feature_accuracy": {
+        "head shape": 0.9797619047619047,
+        "ear shape": 0.9952380952380953,
+        "eye spacing": 0.7690476190476191,
+        "nose shape": 0.9166666666666666,
+        "layout": 0.9738095238095238,
+        "eye shape": 0.819047619047619
+      },
+      "effective_prior_entropy_nats": 1.6337278475900006
+    },
+    "hopfield_matched": {
+      "mean_correct_features": 5.008333333333334,
+      "exact_accuracy": 0.5190476190476191,
+      "mean_hidden_recall": 0.9318094217156487,
+      "mean_hidden_false_positive": 0.0116324138592949,
+      "mean_hidden_error": 0.017625986442102917,
+      "paired_reference": "kernel",
+      "changed_recipes": 262,
+      "better_trials": 132,
+      "worse_trials": 60,
+      "feature_accuracy": {
+        "head shape": 0.9678571428571429,
+        "ear shape": 0.9880952380952381,
+        "eye spacing": 0.6392857142857142,
+        "nose shape": 0.844047619047619,
+        "layout": 0.9345238095238095,
+        "eye shape": 0.6345238095238095
+      },
+      "effective_prior_entropy_nats": 0.002955533202224427
+    },
+    "competitive_0": {
+      "mean_correct_features": 4.651190476190476,
+      "exact_accuracy": 0.39285714285714285,
+      "mean_hidden_recall": 0.8983610171181661,
+      "mean_hidden_false_positive": 0.01544574918938836,
+      "mean_hidden_error": 0.02422855849810211,
+      "paired_reference": "counts",
+      "changed_recipes": 159,
+      "better_trials": 69,
+      "worse_trials": 54,
+      "feature_accuracy": {
+        "head shape": 0.9404761904761905,
+        "ear shape": 0.9642857142857143,
+        "eye spacing": 0.5595238095238095,
+        "nose shape": 0.7047619047619048,
+        "layout": 0.8738095238095238,
+        "eye shape": 0.6083333333333333
+      },
+      "effective_prior_entropy_nats": 0.6927496013987167,
+      "training_observations_including_repeats": 15000,
+      "unit_mixture_weights": [
+        0.3395889705658133,
+        0.31342400774156165,
+        0.34698702169262496
+      ],
+      "hard_training_assignments": [
+        251,
+        230,
+        269
+      ]
+    },
+    "competitive_1": {
+      "mean_correct_features": 4.5476190476190474,
+      "exact_accuracy": 0.36904761904761907,
+      "mean_hidden_recall": 0.8865404787016509,
+      "mean_hidden_false_positive": 0.018927644011048905,
+      "mean_hidden_error": 0.028623094084850025,
+      "paired_reference": "counts",
+      "changed_recipes": 172,
+      "better_trials": 49,
+      "worse_trials": 89,
+      "feature_accuracy": {
+        "head shape": 0.9452380952380952,
+        "ear shape": 0.9273809523809524,
+        "eye spacing": 0.5619047619047619,
+        "nose shape": 0.6845238095238095,
+        "layout": 0.875,
+        "eye shape": 0.5535714285714286
+      },
+      "effective_prior_entropy_nats": 0.253236328655178,
+      "training_observations_including_repeats": 15000,
+      "unit_mixture_weights": [
+        0.32866223767498093,
+        0.3424943590267346,
+        0.32884340329828443
+      ],
+      "hard_training_assignments": [
+        235,
+        253,
+        262
+      ]
+    },
+    "competitive_2": {
+      "mean_correct_features": 4.548809523809524,
+      "exact_accuracy": 0.3523809523809524,
+      "mean_hidden_recall": 0.9064559534421297,
+      "mean_hidden_false_positive": 0.017197686336640573,
+      "mean_hidden_error": 0.02517264130902255,
+      "paired_reference": "counts",
+      "changed_recipes": 245,
+      "better_trials": 99,
+      "worse_trials": 106,
+      "feature_accuracy": {
+        "head shape": 0.9619047619047619,
+        "ear shape": 0.9797619047619047,
+        "eye spacing": 0.48928571428571427,
+        "nose shape": 0.7583333333333333,
+        "layout": 0.8773809523809524,
+        "eye shape": 0.48214285714285715
+      },
+      "effective_prior_entropy_nats": 0.42925330533594963,
+      "training_observations_including_repeats": 15000,
+      "unit_mixture_weights": [
+        0.33932465454263977,
+        0.33188552156154744,
+        0.32878982389581285
+      ],
+      "hard_training_assignments": [
+        264,
+        230,
+        256
+      ]
+    }
+  }
+}

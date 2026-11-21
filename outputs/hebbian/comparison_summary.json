@@ -1,0 +1,9 @@
+{
+  "training_examples": 750,
+  "held_out_trials": 27,
+  "learning_rate": 1.0,
+  "smoothing": 1.0,
+  "max_prior_probability_difference": 0.0,
+  "max_posterior_probability_difference": 0.0,
+  "max_iterative_probability_difference": 0.0
+}

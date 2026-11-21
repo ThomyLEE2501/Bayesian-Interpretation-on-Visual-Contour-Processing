@@ -1,0 +1,526 @@
+{
+  "candidates": 729,
+  "factor_names": [
+    "head shape",
+    "ear shape",
+    "eye spacing",
+    "nose shape",
+    "layout",
+    "eye shape"
+  ],
+  "factor_values": [
+    [
+      "round",
+      "wide",
+      "tall"
+    ],
+    [
+      "round",
+      "pointed",
+      "long"
+    ],
+    [
+      "narrow",
+      "medium",
+      "wide"
+    ],
+    [
+      "triangle",
+      "round",
+      "muzzle"
+    ],
+    [
+      "aligned",
+      "lowered",
+      "scrambled"
+    ],
+    [
+      "dots",
+      "arches",
+      "oval pupils"
+    ]
+  ],
+  "configuration": {
+    "SEED": 7,
+    "IMAGE_SIZE": 40,
+    "VSA_DIM": 512,
+    "FLIP_PROBABILITY": 0.05,
+    "N_TRAIN_PER_CLASS": 250,
+    "EXEMPLAR_PRECISION": 2.5,
+    "PRIOR_STRENGTH": 1.0,
+    "CUE_STRENGTH": 3.0,
+    "DEMO_MASK": "blocks"
+  },
+  "seeds": [
+    17,
+    37,
+    67
+  ],
+  "visibilities": [
+    0.15,
+    0.35,
+    0.65
+  ],
+  "cases": [
+    {
+      "category": 0,
+      "seed": 17,
+      "state_id": 720,
+      "visibility": 0.15,
+      "face": "cow-like",
+      "directory": "cow-like_seed17_visible15",
+      "actual_visibility": 0.140625,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "long",
+        "eye spacing": "wide",
+        "nose shape": "muzzle",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 17,
+      "state_id": 720,
+      "visibility": 0.35,
+      "face": "cow-like",
+      "directory": "cow-like_seed17_visible35",
+      "actual_visibility": 0.390625,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "long",
+        "eye spacing": "wide",
+        "nose shape": "muzzle",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 17,
+      "state_id": 720,
+      "visibility": 0.65,
+      "face": "cow-like",
+      "directory": "cow-like_seed17_visible65",
+      "actual_visibility": 0.78125,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "long",
+        "eye spacing": "wide",
+        "nose shape": "muzzle",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 37,
+      "state_id": 468,
+      "visibility": 0.15,
+      "face": "cow-like",
+      "directory": "cow-like_seed37_visible15",
+      "actual_visibility": 0.21875,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "long",
+        "eye spacing": "wide",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 37,
+      "state_id": 468,
+      "visibility": 0.35,
+      "face": "cow-like",
+      "directory": "cow-like_seed37_visible35",
+      "actual_visibility": 0.421875,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "long",
+        "eye spacing": "wide",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 37,
+      "state_id": 468,
+      "visibility": 0.65,
+      "face": "cow-like",
+      "directory": "cow-like_seed37_visible65",
+      "actual_visibility": 0.65625,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "long",
+        "eye spacing": "wide",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 67,
+      "state_id": 333,
+      "visibility": 0.15,
+      "face": "cow-like",
+      "directory": "cow-like_seed67_visible15",
+      "actual_visibility": 0.15625,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "pointed",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 67,
+      "state_id": 333,
+      "visibility": 0.35,
+      "face": "cow-like",
+      "directory": "cow-like_seed67_visible35",
+      "actual_visibility": 0.484375,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "pointed",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 0,
+      "seed": 67,
+      "state_id": 333,
+      "visibility": 0.65,
+      "face": "cow-like",
+      "directory": "cow-like_seed67_visible65",
+      "actual_visibility": 0.734375,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "pointed",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 17,
+      "state_id": 407,
+      "visibility": 0.15,
+      "face": "cat-like",
+      "directory": "cat-like_seed17_visible15",
+      "actual_visibility": 0.140625,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "long",
+        "eye spacing": "narrow",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "oval pupils"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 17,
+      "state_id": 407,
+      "visibility": 0.35,
+      "face": "cat-like",
+      "directory": "cat-like_seed17_visible35",
+      "actual_visibility": 0.390625,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "long",
+        "eye spacing": "narrow",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "oval pupils"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 17,
+      "state_id": 407,
+      "visibility": 0.65,
+      "face": "cat-like",
+      "directory": "cat-like_seed17_visible65",
+      "actual_visibility": 0.78125,
+      "recipe": {
+        "head shape": "wide",
+        "ear shape": "long",
+        "eye spacing": "narrow",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "oval pupils"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 37,
+      "state_id": 110,
+      "visibility": 0.15,
+      "face": "cat-like",
+      "directory": "cat-like_seed37_visible15",
+      "actual_visibility": 0.21875,
+      "recipe": {
+        "head shape": "round",
+        "ear shape": "pointed",
+        "eye spacing": "medium",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "oval pupils"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 37,
+      "state_id": 110,
+      "visibility": 0.35,
+      "face": "cat-like",
+      "directory": "cat-like_seed37_visible35",
+      "actual_visibility": 0.421875,
+      "recipe": {
+        "head shape": "round",
+        "ear shape": "pointed",
+        "eye spacing": "medium",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "oval pupils"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 37,
+      "state_id": 110,
+      "visibility": 0.65,
+      "face": "cat-like",
+      "directory": "cat-like_seed37_visible65",
+      "actual_visibility": 0.65625,
+      "recipe": {
+        "head shape": "round",
+        "ear shape": "pointed",
+        "eye spacing": "medium",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "oval pupils"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 67,
+      "state_id": 594,
+      "visibility": 0.15,
+      "face": "cat-like",
+      "directory": "cat-like_seed67_visible15",
+      "actual_visibility": 0.15625,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "pointed",
+        "eye spacing": "medium",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 67,
+      "state_id": 594,
+      "visibility": 0.35,
+      "face": "cat-like",
+      "directory": "cat-like_seed67_visible35",
+      "actual_visibility": 0.484375,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "pointed",
+        "eye spacing": "medium",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 1,
+      "seed": 67,
+      "state_id": 594,
+      "visibility": 0.65,
+      "face": "cat-like",
+      "directory": "cat-like_seed67_visible65",
+      "actual_visibility": 0.734375,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "pointed",
+        "eye spacing": "medium",
+        "nose shape": "triangle",
+        "layout": "aligned",
+        "eye shape": "dots"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 17,
+      "state_id": 658,
+      "visibility": 0.15,
+      "face": "human-like",
+      "directory": "human-like_seed17_visible15",
+      "actual_visibility": 0.140625,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "long",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 17,
+      "state_id": 658,
+      "visibility": 0.35,
+      "face": "human-like",
+      "directory": "human-like_seed17_visible35",
+      "actual_visibility": 0.390625,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "long",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 17,
+      "state_id": 658,
+      "visibility": 0.65,
+      "face": "human-like",
+      "directory": "human-like_seed17_visible65",
+      "actual_visibility": 0.78125,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "long",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 37,
+      "state_id": 550,
+      "visibility": 0.15,
+      "face": "human-like",
+      "directory": "human-like_seed37_visible15",
+      "actual_visibility": 0.21875,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "round",
+        "eye spacing": "wide",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 37,
+      "state_id": 550,
+      "visibility": 0.35,
+      "face": "human-like",
+      "directory": "human-like_seed37_visible35",
+      "actual_visibility": 0.421875,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "round",
+        "eye spacing": "wide",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 37,
+      "state_id": 550,
+      "visibility": 0.65,
+      "face": "human-like",
+      "directory": "human-like_seed37_visible65",
+      "actual_visibility": 0.65625,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "round",
+        "eye spacing": "wide",
+        "nose shape": "round",
+        "layout": "aligned",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 67,
+      "state_id": 499,
+      "visibility": 0.15,
+      "face": "human-like",
+      "directory": "human-like_seed67_visible15",
+      "actual_visibility": 0.15625,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "round",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "lowered",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 67,
+      "state_id": 499,
+      "visibility": 0.35,
+      "face": "human-like",
+      "directory": "human-like_seed67_visible35",
+      "actual_visibility": 0.484375,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "round",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "lowered",
+        "eye shape": "arches"
+      }
+    },
+    {
+      "category": 2,
+      "seed": 67,
+      "state_id": 499,
+      "visibility": 0.65,
+      "face": "human-like",
+      "directory": "human-like_seed67_visible65",
+      "actual_visibility": 0.734375,
+      "recipe": {
+        "head shape": "tall",
+        "ear shape": "round",
+        "eye spacing": "narrow",
+        "nose shape": "round",
+        "layout": "lowered",
+        "eye shape": "arches"
+      }
+    }
+  ],
+  "source_notebook_sha256": "c57cf68181bee1c529e00eef3ae30a7560959bf1e2690c5642a804096d5b440d"
+}

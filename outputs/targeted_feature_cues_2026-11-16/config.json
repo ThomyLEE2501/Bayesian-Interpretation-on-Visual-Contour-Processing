@@ -1,0 +1,58 @@
+{
+  "reliability": 0.95,
+  "noise": 0.05,
+  "candidates": 729,
+  "factor_names": [
+    "head shape",
+    "ear shape",
+    "eye spacing",
+    "nose shape",
+    "layout",
+    "eye shape"
+  ],
+  "factor_values": [
+    [
+      "round",
+      "wide",
+      "tall"
+    ],
+    [
+      "round",
+      "pointed",
+      "long"
+    ],
+    [
+      "narrow",
+      "medium",
+      "wide"
+    ],
+    [
+      "triangle",
+      "round",
+      "muzzle"
+    ],
+    [
+      "aligned",
+      "lowered",
+      "scrambled"
+    ],
+    [
+      "dots",
+      "arches",
+      "oval pupils"
+    ]
+  ],
+  "seeds": [
+    17,
+    37,
+    67
+  ],
+  "features": [
+    "nose shape",
+    "ear shape",
+    "head shape",
+    "layout",
+    "eye shape"
+  ],
+  "cases": 30
+}

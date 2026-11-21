@@ -8,6 +8,7 @@ import itertools
 import unittest
 
 import numpy as np
+from scipy.ndimage import binary_dilation, label
 
 from closure_model import (
     CARDINALITIES,
@@ -87,6 +88,17 @@ class LibraryAndPriorTests(unittest.TestCase):
             expected = np.full(3, .14)
             expected[preferred_eye] = .72
             np.testing.assert_allclose(marginal, expected, atol=1e-12)
+
+    def test_dotted_eyes_are_separate_from_each_other_and_the_rest_of_every_face(self):
+        neighborhood = np.ones((3, 3), dtype=bool)
+        for size in (24, 40):
+            for factors in itertools.product(range(3), repeat=5):
+                recipe = (*factors, 0)
+                eyes = render_state(recipe, size, parts=("eyes",)).astype(bool)
+                other = render_state(recipe, size, parts=("outline", "ears", "nose", "mouth"))
+                with self.subTest(size=size, recipe=recipe):
+                    self.assertEqual(label(eyes, neighborhood)[1], 2)
+                    self.assertFalse((eyes & binary_dilation(other, neighborhood)).any())
 
     def test_prior_fitting_does_not_read_generator_probabilities(self):
         changed = make_library(size=24, seed=7)

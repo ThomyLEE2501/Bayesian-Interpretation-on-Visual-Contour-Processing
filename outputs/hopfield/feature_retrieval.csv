@@ -1,0 +1,145 @@
+split,trial,method,hidden_feature_accuracy,exact_target,wrong_stored_configuration,wrong_unseen_combination,correct_unseen_combination
+stored,0,random initialization,0.0,False,False,True,False
+stored,0,kernel MAP,0.3333333333333333,False,True,False,False
+stored,0,global minimum energy,0.6666666666666666,False,True,False,False
+stored,0,recurrent retrieval,0.6666666666666666,False,True,False,False
+stored,1,random initialization,0.3333333333333333,False,True,False,False
+stored,1,kernel MAP,1.0,True,False,False,False
+stored,1,global minimum energy,1.0,True,False,False,False
+stored,1,recurrent retrieval,1.0,True,False,False,False
+stored,2,random initialization,0.6666666666666666,False,False,True,False
+stored,2,kernel MAP,0.3333333333333333,False,True,False,False
+stored,2,global minimum energy,0.0,False,False,True,False
+stored,2,recurrent retrieval,0.0,False,False,True,False
+stored,3,random initialization,0.3333333333333333,False,False,True,False
+stored,3,kernel MAP,1.0,True,False,False,False
+stored,3,global minimum energy,1.0,True,False,False,False
+stored,3,recurrent retrieval,1.0,True,False,False,False
+stored,4,random initialization,0.6666666666666666,False,False,True,False
+stored,4,kernel MAP,0.3333333333333333,False,True,False,False
+stored,4,global minimum energy,0.3333333333333333,False,True,False,False
+stored,4,recurrent retrieval,0.3333333333333333,False,True,False,False
+stored,5,random initialization,0.3333333333333333,False,True,False,False
+stored,5,kernel MAP,0.3333333333333333,False,True,False,False
+stored,5,global minimum energy,0.3333333333333333,False,True,False,False
+stored,5,recurrent retrieval,0.3333333333333333,False,True,False,False
+stored,6,random initialization,0.3333333333333333,False,False,True,False
+stored,6,kernel MAP,1.0,True,False,False,False
+stored,6,global minimum energy,0.3333333333333333,False,False,True,False
+stored,6,recurrent retrieval,0.3333333333333333,False,False,True,False
+stored,7,random initialization,0.0,False,False,True,False
+stored,7,kernel MAP,0.0,False,True,False,False
+stored,7,global minimum energy,0.3333333333333333,False,True,False,False
+stored,7,recurrent retrieval,0.0,False,True,False,False
+stored,8,random initialization,1.0,True,False,False,False
+stored,8,kernel MAP,0.3333333333333333,False,True,False,False
+stored,8,global minimum energy,0.6666666666666666,False,False,True,False
+stored,8,recurrent retrieval,0.6666666666666666,False,False,True,False
+stored,9,random initialization,0.0,False,False,True,False
+stored,9,kernel MAP,0.6666666666666666,False,True,False,False
+stored,9,global minimum energy,0.6666666666666666,False,True,False,False
+stored,9,recurrent retrieval,0.6666666666666666,False,True,False,False
+stored,10,random initialization,0.3333333333333333,False,False,True,False
+stored,10,kernel MAP,0.3333333333333333,False,True,False,False
+stored,10,global minimum energy,0.3333333333333333,False,True,False,False
+stored,10,recurrent retrieval,0.3333333333333333,False,True,False,False
+stored,11,random initialization,0.0,False,False,True,False
+stored,11,kernel MAP,0.6666666666666666,False,True,False,False
+stored,11,global minimum energy,0.6666666666666666,False,True,False,False
+stored,11,recurrent retrieval,0.0,False,True,False,False
+stored,12,random initialization,0.6666666666666666,False,False,True,False
+stored,12,kernel MAP,1.0,True,False,False,False
+stored,12,global minimum energy,1.0,True,False,False,False
+stored,12,recurrent retrieval,1.0,True,False,False,False
+stored,13,random initialization,0.0,False,True,False,False
+stored,13,kernel MAP,0.6666666666666666,False,True,False,False
+stored,13,global minimum energy,0.6666666666666666,False,True,False,False
+stored,13,recurrent retrieval,0.0,False,True,False,False
+stored,14,random initialization,0.3333333333333333,False,True,False,False
+stored,14,kernel MAP,0.3333333333333333,False,True,False,False
+stored,14,global minimum energy,0.0,False,True,False,False
+stored,14,recurrent retrieval,0.3333333333333333,False,True,False,False
+stored,15,random initialization,0.3333333333333333,False,False,True,False
+stored,15,kernel MAP,1.0,True,False,False,False
+stored,15,global minimum energy,1.0,True,False,False,False
+stored,15,recurrent retrieval,1.0,True,False,False,False
+stored,16,random initialization,0.0,False,False,True,False
+stored,16,kernel MAP,0.0,False,False,True,False
+stored,16,global minimum energy,0.0,False,False,True,False
+stored,16,recurrent retrieval,0.0,False,False,True,False
+stored,17,random initialization,0.3333333333333333,False,False,True,False
+stored,17,kernel MAP,0.0,False,True,False,False
+stored,17,global minimum energy,0.0,False,True,False,False
+stored,17,recurrent retrieval,0.0,False,True,False,False
+held-out,0,random initialization,0.3333333333333333,False,True,False,False
+held-out,0,kernel MAP,0.0,False,True,False,False
+held-out,0,global minimum energy,0.0,False,True,False,False
+held-out,0,recurrent retrieval,0.0,False,True,False,False
+held-out,1,random initialization,1.0,True,False,False,True
+held-out,1,kernel MAP,0.0,False,True,False,False
+held-out,1,global minimum energy,0.0,False,False,True,False
+held-out,1,recurrent retrieval,0.6666666666666666,False,False,True,False
+held-out,2,random initialization,1.0,True,False,False,True
+held-out,2,kernel MAP,0.3333333333333333,False,False,True,False
+held-out,2,global minimum energy,0.3333333333333333,False,False,True,False
+held-out,2,recurrent retrieval,0.3333333333333333,False,False,True,False
+held-out,3,random initialization,0.0,False,False,True,False
+held-out,3,kernel MAP,0.3333333333333333,False,True,False,False
+held-out,3,global minimum energy,0.0,False,True,False,False
+held-out,3,recurrent retrieval,0.0,False,False,True,False
+held-out,4,random initialization,0.0,False,True,False,False
+held-out,4,kernel MAP,0.3333333333333333,False,True,False,False
+held-out,4,global minimum energy,0.3333333333333333,False,True,False,False
+held-out,4,recurrent retrieval,0.3333333333333333,False,True,False,False
+held-out,5,random initialization,0.3333333333333333,False,True,False,False
+held-out,5,kernel MAP,0.3333333333333333,False,True,False,False
+held-out,5,global minimum energy,0.3333333333333333,False,True,False,False
+held-out,5,recurrent retrieval,0.3333333333333333,False,True,False,False
+held-out,6,random initialization,0.0,False,False,True,False
+held-out,6,kernel MAP,0.0,False,True,False,False
+held-out,6,global minimum energy,0.0,False,True,False,False
+held-out,6,recurrent retrieval,0.3333333333333333,False,True,False,False
+held-out,7,random initialization,0.0,False,True,False,False
+held-out,7,kernel MAP,0.0,False,True,False,False
+held-out,7,global minimum energy,0.0,False,True,False,False
+held-out,7,recurrent retrieval,0.0,False,True,False,False
+held-out,8,random initialization,0.0,False,False,True,False
+held-out,8,kernel MAP,0.0,False,True,False,False
+held-out,8,global minimum energy,0.0,False,False,True,False
+held-out,8,recurrent retrieval,0.0,False,False,True,False
+held-out,9,random initialization,1.0,True,False,False,True
+held-out,9,kernel MAP,0.3333333333333333,False,False,True,False
+held-out,9,global minimum energy,0.3333333333333333,False,False,True,False
+held-out,9,recurrent retrieval,0.6666666666666666,False,False,True,False
+held-out,10,random initialization,0.6666666666666666,False,False,True,False
+held-out,10,kernel MAP,0.6666666666666666,False,False,True,False
+held-out,10,global minimum energy,0.6666666666666666,False,False,True,False
+held-out,10,recurrent retrieval,0.6666666666666666,False,False,True,False
+held-out,11,random initialization,0.0,False,False,True,False
+held-out,11,kernel MAP,0.3333333333333333,False,False,True,False
+held-out,11,global minimum energy,0.3333333333333333,False,False,True,False
+held-out,11,recurrent retrieval,0.3333333333333333,False,False,True,False
+held-out,12,random initialization,0.0,False,False,True,False
+held-out,12,kernel MAP,0.0,False,True,False,False
+held-out,12,global minimum energy,0.0,False,False,True,False
+held-out,12,recurrent retrieval,0.0,False,False,True,False
+held-out,13,random initialization,0.0,False,True,False,False
+held-out,13,kernel MAP,0.6666666666666666,False,True,False,False
+held-out,13,global minimum energy,1.0,True,False,False,True
+held-out,13,recurrent retrieval,1.0,True,False,False,True
+held-out,14,random initialization,0.3333333333333333,False,False,True,False
+held-out,14,kernel MAP,0.6666666666666666,False,True,False,False
+held-out,14,global minimum energy,0.6666666666666666,False,True,False,False
+held-out,14,recurrent retrieval,0.6666666666666666,False,True,False,False
+held-out,15,random initialization,0.6666666666666666,False,False,True,False
+held-out,15,kernel MAP,0.6666666666666666,False,True,False,False
+held-out,15,global minimum energy,0.0,False,False,True,False
+held-out,15,recurrent retrieval,0.0,False,False,True,False
+held-out,16,random initialization,0.0,False,True,False,False
+held-out,16,kernel MAP,0.3333333333333333,False,True,False,False
+held-out,16,global minimum energy,0.3333333333333333,False,True,False,False
+held-out,16,recurrent retrieval,0.3333333333333333,False,True,False,False
+held-out,17,random initialization,0.3333333333333333,False,False,True,False
+held-out,17,kernel MAP,1.0,True,False,False,True
+held-out,17,global minimum energy,1.0,True,False,False,True
+held-out,17,recurrent retrieval,1.0,True,False,False,True

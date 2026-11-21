@@ -1,0 +1,53 @@
+{
+  "training_draws": 750,
+  "epochs": 20,
+  "n_units": 3,
+  "learning_rate": 0.03,
+  "temperature": 0.7,
+  "homeostasis": 2.0,
+  "model_seeds": [
+    0,
+    1,
+    2
+  ],
+  "heldout_trials": 27,
+  "seed_diagnostics": [
+    {
+      "seed": 0,
+      "heldout_aligned_agreement": 0.7777777777777778,
+      "low_usage_units": 0,
+      "occupancy": [
+        0.33466666666666667,
+        0.30666666666666664,
+        0.3586666666666667
+      ]
+    },
+    {
+      "seed": 1,
+      "heldout_aligned_agreement": 0.8148148148148148,
+      "low_usage_units": 0,
+      "occupancy": [
+        0.31333333333333335,
+        0.3373333333333333,
+        0.34933333333333333
+      ]
+    },
+    {
+      "seed": 2,
+      "heldout_aligned_agreement": 0.7407407407407407,
+      "low_usage_units": 0,
+      "occupancy": [
+        0.352,
+        0.30666666666666664,
+        0.3413333333333333
+      ]
+    }
+  ],
+  "no_inhibition_occupancy": [
+    0.068,
+    0.348,
+    0.584
+  ],
+  "training_uses_category_labels": false,
+  "feature_vocabulary_supplied": true
+}

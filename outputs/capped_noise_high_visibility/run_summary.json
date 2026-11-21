@@ -1,0 +1,46 @@
+{
+  "target_visible_pct": [
+    80,
+    90,
+    95
+  ],
+  "held_out_faces_per_condition": 64,
+  "seed": 172,
+  "renderer_version": 2,
+  "competitive_seeds": [
+    0,
+    1,
+    2
+  ],
+  "target_flip_pct": [
+    2,
+    5,
+    10,
+    15,
+    20
+  ],
+  "max_realized_flip_pct": 20.0,
+  "correct_hints": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "prior_weight": 12.0,
+  "mean_by_visibility": {
+    "80": 5.4976190476190485,
+    "90": 5.565029761904763,
+    "95": 5.620238095238095
+  },
+  "mean_by_flip_pct": {
+    "2": 5.998511904761905,
+    "5": 5.9747023809523805,
+    "10": 5.725446428571428,
+    "15": 5.306051587301587,
+    "20": 4.8000992063492065
+  },
+  "mean_correct_features": 5.560962301587303
+}
