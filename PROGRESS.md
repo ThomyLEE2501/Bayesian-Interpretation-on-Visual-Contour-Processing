@@ -331,3 +331,13 @@ I exported the [poster PNG](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tun
 **Your new ideas and questions.** You used the two hints to illustrate how a cue can specify one part while leaving the rest of the face open.
 
 **My clarifications.** Gray shows how often a pixel appears when the compatible recipes are weighted equally. These are illustrations of hint information before the model scores the visible image or applies learned familiarity.
+
+### Weighting the visual evidence
+
+**Research question.** How much evidence for a face does a difference in encoded image distance provide? The revised writeup introduces a weight on the VSA score with the learned prior and hint reliability held fixed. The reported runs used visual weight one. The earlier prior-weight sweep, including α = 12, measures sensitivity to learned familiarity. [Writeup](writeup/closure_experiment.pdf)
+
+**Completed comparison.** On the same 12 held-out faces, image evidence alone recovered 5.35 of six features on average. Adding hints at 50% assumed reliability gave 5.55, with exact recovery rising from 55.8% to 69.8%. The sweep varied the prior weight and assumed hint reliability across ten visibility levels and zero through six correct hints. It therefore answers a different question from fitting a visual weight. [Sweep](sweep_hint_reliability.py) · [Summary](outputs/hint_reliability/summary.csv) · [Condition results](outputs/hint_reliability/by_condition.csv)
+
+**What needed an ELI5 explanation.** Flattening an image keeps all its pixels. Counting disagreements summarizes one candidate comparison exactly under the independent flip model. Superposing pixels into 512 code coordinates adds cross-talk. Across random codebooks the squared distance has the right mean, while a particular pair of faces can look closer or farther apart.
+
+**New idea and clarification.** The exact encoded likelihood sums the probabilities of visible images that produce the observed code. VSA retrieval theory and compressive imaging give related analytic results under their own noise assumptions. A proposed experiment would compare visual weights across code dimensions on separate calibration and evaluation images. The compression ratio alone does not determine the weight. The poster is deferred.

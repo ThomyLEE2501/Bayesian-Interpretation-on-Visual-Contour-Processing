@@ -129,10 +129,10 @@ Thus, \texttt{samples[:, j]} supplies values to count, while \texttt{states[:, j
 
 \textbf{Layout.} Equation~\eqref{eq:pooled} uses only layout frequencies. Head shape, ear shape, eye spacing, nose shape, and eye shape receive uniform weights.
 
-\textbf{Latent categories.} The same counting operation is repeated separately within each labeled training category. For category $g$, feature counts give
+\textbf{Latent categories.} Let $G=\{\text{cow-like},\text{cat-like},\text{human-like}\}$ be the set of face categories. Each $g\in G$ describes the type of face a recipe represents. To estimate $p(z\mid g)$, we count feature values among training faces labeled $g$. When the category is unknown, we average the recipe probabilities over all categories:
 \begin{equation}
 p(z\mid g)=\prod_j\widehat\pi_{jg}(z_j),\qquad
-p_{\mathrm{cat}}(z)=\sum_g\widehat w_g\,p(z\mid g).
+p_{\mathrm{category}}(z)=\sum_{g\in G}\widehat w_g\,p(z\mid g).
 \label{eq:category}
 \end{equation}
 The mixture weights $\widehat w_g$ are smoothed category frequencies. Since training draws are balanced, they are equal here. Features are independent within each category model, while mixing categories creates dependencies between features. Wide heads and long ears can increase the relative contribution of the cow-like component, which in turn changes support for nose values.
@@ -194,6 +194,7 @@ For a clean drawing $x=R(z^*)$, a visibility mask $M$ is generated and visible p
 Random masks use $5\times5$ blocks. Each block is visible with a requested probability $v$. The realized visible fraction, $\sum_iM_i/1600$, varies across seeds. Masks at different $v$ values in the seed sweep use the same underlying random field, producing nested visible regions. The flip field is also held fixed within each face/seed pair.
 
 \subsection{Ordinary pixel likelihood}
+Flattening a $40\times40$ image into a list of 1,600 pixels preserves every value and its position. Computing a distance takes a further step: it reduces a comparison with one particular candidate to a single number. Under independent flips with a common rate, the number of mismatches carries all the information needed to score that candidate at a fixed mask.
 For candidate $z$, the visible mismatch count is
 \begin{equation}
 d(z)=\sum_i M_i[y_i-R(z)_i]^2.
@@ -234,6 +235,25 @@ The second term is cross-talk. Orthogonal codes would recover the ordinary squar
 The renderer supplies the feature-to-pixel mapping. The encoder's fixed coordinate codes supply a compact representation for comparing those predicted pixels with the observation. The feature labels are already defined by the recipes.
 
 \section{Inference and cue manipulations}
+\subsection{How much evidence does an encoded distance provide?}
+At a 5\% flip rate, one additional pixel mismatch divides the pixel likelihood by 19. The current VSA score gives one additional unit of squared encoded distance the same penalty. To examine that assumption, first keep the learned prior and hint reliability fixed and write the candidate score as
+\[
+ w\,\widetilde\ell_{\mathrm{VSA}}(z)+\log p(z)+\log p(c\mid z).
+\]
+Here $c$ denotes any supplied hint, and its term drops out on uncued trials. The reported VSA runs use $w=1$. A proposed calibration would estimate $w$ on separate uncued observations by minimizing the negative log posterior probability of the true recipe, using the recipe distribution of the calibration sample as the prior. Evaluate the fixed weight on fresh observations. The later sweep of $\alpha$ asks how decisions respond to changing the learned prior.
+
+\paragraph{What dimension changes.}
+For this encoder, distinct pixel codes have zero expected inner product over random codebooks. Thus for a fixed image difference the expected squared encoded distance equals the pixel mismatch count at every $D$. Independent code coordinates average out cross-talk as $D$ grows. A fixed codebook can distort different comparisons in opposite directions. Dimension affects the spread of the errors and by itself specifies no scalar correction. Li and colleagues derive distance distributions for independent random projections \cite{li2006}. The shared row and column factors here require their own error analysis.
+
+\paragraph{A likelihood from the observation model.}
+For a fixed mask, let $n$ be the visible pixel count and let $A$ contain the corresponding pixel codes as columns. If $b$ is a possible visible binary image and $k_z(b)$ its mismatch count against recipe $z$, the exact probability of observing encoded vector $h$ follows by summing over compatible images:
+\[
+ P(H=h\mid z,M,A)=
+ \sum_{\{b\in\{0,1\}^n:\,Ab=h\}}
+ \rho^{k_z(b)}(1-\rho)^{n-k_z(b)} .
+\]
+Every image in the sum could have produced the observed vector. This gives a formal reference, though direct enumeration grows exponentially with the number of visible pixels. For a different noise model, Gaussian pixel noise with covariance $\Sigma$, linear encoding gives covariance $A\Sigma A^\top$ in code space. This yields a covariance-weighted distance on the supported subspace, as in compressive imaging \cite{compressive2012}. VSA theory likewise derives probabilities of correct symbol retrieval from cross-talk under specified memory and readout models \cite{frady2018}. Each derivation specifies what is random and which event receives a probability.
+
 \subsection{Full-candidate posterior}
 For prior condition $s$ and prior coefficient $\alpha$, full-candidate inference computes
 \begin{equation}
@@ -267,7 +287,7 @@ Full-candidate and iterative inference are alternative runs using the same evide
 \subsection{Category cues}
 The earlier cue comparison uses the counted category mixture for ``no cue'' and a class-conditional count prior for an explicit category cue,
 \begin{align}
-q_{\mathrm{none}}(z)&\propto\exp[\ell(z)]\,p_{\mathrm{cat}}(z),\\
+q_{\mathrm{none}}(z)&\propto\exp[\ell(z)]\,p_{\mathrm{category}}(z),\\
 q_{g}(z)&\propto\exp[\ell(z)]\,p(z\mid g)^3.
 \end{align}
 Correct cues name the stimulus's generating category, while wrong cues cycle cow-like to cat-like to human-like to cow-like. These conditions change both category information and the prior coefficient. They illustrate the combined effect of cue content and stronger prior weighting. A generating category also leaves uncertainty over the particular recipe.
@@ -285,7 +305,7 @@ Thus
 \begin{equation}
 q(z\mid y,M,c)\propto
 \exp[\widetilde\ell_{\mathrm{VSA}}(z)]\,
-p_{\mathrm{cat}}(z)\,g(c\mid z_j).
+p_{\mathrm{category}}(z)\,g(c\mid z_j).
 \label{eq:featurecue}
 \end{equation}
 The assumed reliability is a parameter of the cue model. The experiment deliberately supplies incorrect statements in the wrong-cue conditions. A finite cue factor permits sufficiently strong visual evidence to override the statement.
@@ -482,5 +502,16 @@ E. P. Frady, S. Kent, B. A. Olshausen, and F. T. Sommer.
 Resonator networks for factoring distributed representations of data structures.
 arXiv:2007.03748, 2020.
 \url{https://arxiv.org/abs/2007.03748}.
+\bibitem{li2006}
+P. Li, T. J. Hastie, and K. W. Church. Very sparse random projections. KDD, 2006.
+\url{https://web.stanford.edu/~hastie/Papers/Ping/KDD06_rp.pdf}.
+
+\bibitem{compressive2012}
+Target detection performance bounds in compressive imaging. EURASIP Journal on Advances in Signal Processing, 2012, article 205.
+\url{https://doi.org/10.1186/1687-6180-2012-205}.
+
+\bibitem{frady2018}
+E. P. Frady, D. Kleyko, and F. T. Sommer. A theory of sequence indexing and working memory in recurrent neural networks. Neural Computation, 2018.
+\url{https://arxiv.org/abs/1803.00412}.
 \end{thebibliography}
 \end{document}
