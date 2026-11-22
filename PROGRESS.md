@@ -324,6 +324,8 @@ I connected this working directory to the existing GitHub repository and based i
 
 **I did** add the two equal-sized faces to a copy of your edited poster. Each image averages the 243 face combinations that satisfy its hint. I checked that both fit between the “Adjust” and “Infer” arrows. [Updated poster](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tuning.pptx)
 
+I exported the [poster PNG](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tuning.png) at 200 dpi and added a Git ignore rule for new files in `Poster/Written_parts/`.
+
 **What needed an ELI5 explanation.** Imagine stacking every drawing with triangle ears. The ears line up in every drawing, so they stay black. The eyes, nose, and other strokes move around. Where more drawings put ink in the same spot, the gray is darker. The tall-face example fixes the outline and varies the other features the same way.
 
 **Your new ideas and questions.** You used the two hints to illustrate how a cue can specify one part while leaving the rest of the face open.
