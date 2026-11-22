@@ -9,7 +9,7 @@ This project studies a tractable part of these questions. People and a Bayesian 
 
 | Start here | Contents |
 | --- | --- |
-| [Poster](Poster/Bayesian_Visual_Contour_Poster_Hebbian_Rule.pptx) | Final editable November 20 poster with model and human results. Its [plot data](outputs/poster/plot_data/) include the filtered human series and the high-visibility model extension. |
+| [Poster (PowerPoint)](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tuning.pptx) · [PNG](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tuning.png) | 24 x 36 inch poster with model and human results. Its [plot data](outputs/poster/plot_data/) include the filtered human series and the high-visibility model extension. |
 | [Writeup](writeup/closure_experiment.pdf) · [LaTeX](writeup/closure_experiment.tex) | Current 729-recipe design, equations, prior-learning methods, results and encoder proposal. The source figures are beside the TeX file in [figures](writeup/figures/). |
 | [Baseline notebook](vsa_gestalt_closure.ipynb) · [baseline guide](BASELINE.md) | Counted priors, pixel and vector evidence, full-candidate and iterative inference. [Saved runs](outputs/) include the November 16 visibility, targeted-cue and mixed-cue experiments. |
 | [Prior-learning guide](PRIOR_LEARNING.md) | Executed notebooks for [supervised Hebbian](hebbian_learning.ipynb), [competitive Hebbian](competitive_learning.ipynb) and [Hopfield](hopfield_learning.ipynb) learning. [Results](outputs/) include weights, matched comparisons and capped-noise sweeps. |
