@@ -317,3 +317,15 @@ I connected this working directory to the existing GitHub repository and based i
 **Your new ideas and questions.** You designated this directory as the home for future project work and asked that the record reflect how your questions and understanding changed over time.
 
 **My clarifications.** A repeated export is one session. Future entries belong under their Pacific calendar date, with additional work on the same day added to that day’s section.
+
+## November 22, 2026 — Showing what a hint fixes
+
+**You asked** for two faces under “Hint Tuning” in your revised 24 × 36 inch poster. One would show triangle ears in black and the other a tall face outline in black. You wanted the uncertain features in grayscale and both images sized to match the recovery candidates.
+
+**I did** add the two equal-sized faces to a copy of your edited poster. Each image averages the 243 face combinations that satisfy its hint. I checked that both fit between the “Adjust” and “Infer” arrows. [Updated poster](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tuning.pptx)
+
+**What needed an ELI5 explanation.** Imagine stacking every drawing with triangle ears. The ears line up in every drawing, so they stay black. The eyes, nose, and other strokes move around. Where more drawings put ink in the same spot, the gray is darker. The tall-face example fixes the outline and varies the other features the same way.
+
+**Your new ideas and questions.** You used the two hints to illustrate how a cue can specify one part while leaving the rest of the face open.
+
+**My clarifications.** Gray shows how often a pixel appears when the compatible recipes are weighted equally. These are illustrations of hint information before the model scores the visible image or applies learned familiarity.
