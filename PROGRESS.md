@@ -352,6 +352,8 @@ At your request, I exported the current 24 × 36 inch poster at 200 dpi (4,800 �
 
 You proposed treating a stroke as a continuous region. In your muzzle sketch, an outer boundary and two nostril holes belong to one region. You asked whether an encoder could bind each curve's shape to its position and whether the prior and a fallible hint could describe the same stroke while carrying different weights.
 
+![Your handwritten sketch of the gray muzzle and its two nostril holes, with each boundary curve bound to its location in the muzzle](diagrams/muzzle-stroke-boundaries-sketch.jpg)
+
 I reviewed prior work on inferring stroke programs, binding shape to position, completing contours with topology hints, and estimating likelihood ratios. The gap we identified is predicting when a visible clue should outweigh a hint after encoding, and whether that prediction transfers across image resolution, pixel type, and vector dimension. Section 8.5 records the question and the proposed test. [Writeup](writeup/closure_experiment.pdf) · [Stroke programs](https://arxiv.org/abs/2006.14448) · [VSA scene model](https://doi.org/10.1038/s42256-024-00848-0) · [Topology hints](https://doi.org/10.1109/CVPR.2013.246) · [Likelihood-ratio calibration](https://arxiv.org/abs/1506.02169)
 
 **Plain-language example.** Suppose a hint says the long nostril is on the left. If the two sides were equally likely and the hint is right 80% of the time on either side, it gives left a four-to-one advantage. A glimpse of the right rim should change the answer only when it gives stronger evidence for right. The hint counts once across the whole stroke.
