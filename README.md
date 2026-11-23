@@ -4,8 +4,7 @@ Look at the image before reading on. Which patches belong to the same object? Wh
 ![Grainy grayscale puzzle photograph in which the contours of a cow’s face are difficult to distinguish.](assets/ambiguous-cow.png)
 
 Now look for a **cow’s face**. Once one patch reads as a muzzle, the patches around it can fall into place as parts of the same head. What did the cue contribute if the pixels stayed the same? Can knowing that a patchy image shows a cow change which marks you group into its muzzle? [Dallenbach’s cow puzzle (1951)](https://doi.org/10.2307/1419008)
-
-This project studies a tractable part of these questions. People and a Bayesian model reconstruct the six features of a masked, noisy drawing. Visibility, pixel flips, learned expectations and correct or misleading hints can all be varied.
+This project studies a tractable part of these questions. People and a Bayesian model are tasked to reconstruct the six features of a masked, noisy drawing. Visibility, pixel flips, learned expectations and correct or misleading hints can all be varied to make an accurate reconstruction easier or more challenging.
 
 ## Brief Conceptual Overview: how evidence and expectation combine
 
@@ -23,7 +22,7 @@ The **prior** captures which face recipes are familiar. The **image likelihood**
 
 | Start here | Contents |
 | --- | --- |
-| [Poster](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Results_Merged_Plots_Fitted.png) · [Editable PowerPoint](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Results_Merged_Plots_Fitted.pptx) | 24 x 36 inch poster with model and human results. Its [plot data](outputs/poster/plot_data/) include the filtered human series and the high-visibility model extension. |
+| [Poster](Poster/Bayesian_Visual_Contour_Poster_24x36.pdf)  | My poster for the undergraduate Berkeley Neuroscience senior poster session.   |
 | [Writeup](writeup/closure_experiment.pdf) · [LaTeX](writeup/closure_experiment.tex) | Current 729-recipe design, equations, prior-learning methods, results and encoder proposal. The source figures are beside the TeX file in [figures](writeup/figures/). |
 | [Baseline notebook](vsa_gestalt_closure.ipynb) · [baseline guide](BASELINE.md) | Counted priors, pixel and vector evidence, full-candidate and iterative inference. [Saved runs](outputs/) include the November 16 visibility, targeted-cue and mixed-cue experiments. |
 | [Prior-learning guide](PRIOR_LEARNING.md) | Executed notebooks for [supervised Hebbian](hebbian_learning.ipynb), [competitive Hebbian](competitive_learning.ipynb) and [Hopfield](hopfield_learning.ipynb) learning. [Results](outputs/) include weights, matched comparisons and capped-noise sweeps. |
