@@ -7,6 +7,20 @@ Now look for a **cow’s face**. Once one patch reads as a muzzle, the patches a
 
 This project studies a tractable part of these questions. People and a Bayesian model reconstruct the six features of a masked, noisy drawing. Visibility, pixel flips, learned expectations and correct or misleading hints can all be varied.
 
+## Brief Conceptual Overview: how evidence and expectation combine
+
+How specific does the cue need to be? “Cow” suggests a familiar combination of features. “Muzzle nose” makes a claim about one part. Revealing the nose outline gives the observer a way to check that claim.
+
+In the model, the visible pixels $I$ and the hints $H$ provide independent evidence given a candidate face $C$ and a known visibility mask $M$.
+
+$$
+P(C \mid I,M,H) \propto P(I \mid C,M)\,P(H \mid C)\,P(C).
+$$
+
+The **prior** captures which face recipes are familiar. The **image likelihood** scores how well each recipe predicts the visible strokes and visible background, allowing for noise. The **hint likelihood** accounts for what the observer was told and how reliable it is. Together they give a **posterior** over possible completions. If two recipes differ only behind the mask, the visible pixels give them equal support. Familiarity and hints can still favor one over the other.
+
+## Resources
+
 | Start here | Contents |
 | --- | --- |
 | [Poster](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Results_Merged_Plots_Fitted.png) · [Editable PowerPoint](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Results_Merged_Plots_Fitted.pptx) | 24 x 36 inch poster with model and human results. Its [plot data](outputs/poster/plot_data/) include the filtered human series and the high-visibility model extension. |
