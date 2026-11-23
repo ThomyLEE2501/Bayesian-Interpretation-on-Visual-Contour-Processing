@@ -341,3 +341,9 @@ I exported the [poster PNG](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tun
 **What needed an ELI5 explanation.** Flattening an image keeps all its pixels. Counting disagreements summarizes one candidate comparison exactly under the independent flip model. Superposing pixels into 512 code coordinates adds cross-talk. Across random codebooks the squared distance has the right mean, while a particular pair of faces can look closer or farther apart.
 
 **New idea and clarification.** The exact encoded likelihood sums the probabilities of visible images that produce the observed code. VSA retrieval theory and compressive imaging give related analytic results under their own noise assumptions. A proposed experiment would compare visual weights across code dimensions on separate calibration and evaluation images. The compression ratio alone does not determine the weight. The poster is deferred.
+
+### Poster results and publication
+
+The revised poster pairs the concealed and visible nose examples and reports exact face recovery with image evidence alone (56%) and with hints that were correct half the time (70%). The visibility-band and noise-rate plots now combine computer and human results. Orange and teal circles show computer condition means and human trials, respectively. Larger triangles show group means, and dashed quadratic curves summarize their trends. Both plots have boxed legends and align beneath the two contour plots.
+
+At your request, I exported the current 24 × 36 inch poster at 200 dpi (4,800 × 7,200 pixels) and made the PNG the primary README poster link. This update presents existing results. The discussion of VSA distance and likelihood scaling remains a separate writing task. [Poster PNG](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Results_Merged_Plots_Fitted.png) · [Editable PowerPoint](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Results_Merged_Plots_Fitted.pptx)
