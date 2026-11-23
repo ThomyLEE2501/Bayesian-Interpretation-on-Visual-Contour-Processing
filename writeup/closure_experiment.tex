@@ -472,7 +472,14 @@ Sparse distributed memory could retrieve contextual associations or clean up a n
 
 The practical next test is whether a learned recurrent encoder can improve part grouping as cue information becomes more specific while retaining appropriate uncertainty and responding to contradictory pixels. This addresses the original question about when a patch becomes interpretable as a possible muzzle.
 
-\begin{thebibliography}{9}
+\subsection{When should a visible stroke outweigh a hint?}
+How much is a visible clue worth after an image is turned into a vector? Previous work has inferred stroke programs from images, bound shapes to their positions in a VSA, and used hints about the number of closed contours to complete boundaries \cite{feinman2021,renner2024,xu2013}. Calibrated classifiers also provide a way to estimate likelihood ratios from simulated observations \cite{cranmer2015}. The open question in the studies we reviewed is whether a stroke code preserves enough evidence to predict when a visible contour should outweigh a conflicting hint as image resolution, pixel properties, and vector dimension change.
+
+Consider two equally likely muzzle recipes. Each has one round nostril and one elongated nostril. Only their positions are swapped. A hint reports the side of the elongated nostril correctly in 80\% of cases on either side. If it says \emph{left}, it supplies $4{:}1$ odds for left. When both nostrils are hidden, the identical visible pixels give $1{:}1$ visual odds. Now reveal a piece of the right rim. The model should favor right as soon as the visible patch supplies more than $4{:}1$ evidence for right. The hint enters the odds once, however many pixels its interpretation affects.
+
+We propose to compare that switch for the exact pixel likelihood, the current pixel VSA, and a VSA that binds each boundary's shape to its location and role in the muzzle (outer rim or hole). The simulator would supply the reference odds under a specified noise model. We would calibrate the vector scores on one set of conditions, then predict the switch at held-out resolutions and vector dimensions and with binary, grayscale, or color observations. Enlarging an image by copying its pixels should leave the odds unchanged. Acquiring independent measurements of the same rim can supply fresh evidence. Together these controls would show how much of the clue each encoder retains.
+
+\begin{thebibliography}{99}
 \bibitem{schwiedrzik2018}
 C. M. Schwiedrzik, L. Melloni, and A. Schurger.
 Mooney face stimuli for visual perception research.
@@ -513,5 +520,21 @@ Target detection performance bounds in compressive imaging. EURASIP Journal on A
 \bibitem{frady2018}
 E. P. Frady, D. Kleyko, and F. T. Sommer. A theory of sequence indexing and working memory in recurrent neural networks. Neural Computation, 2018.
 \url{https://arxiv.org/abs/1803.00412}.
+
+\bibitem{feinman2021}
+R. Feinman and B. M. Lake. Learning task-general representations with generative neuro-symbolic modeling. ICLR, 2021.
+\url{https://arxiv.org/abs/2006.14448}.
+
+\bibitem{renner2024}
+A. Renner et al. Neuromorphic visual scene understanding with resonator networks. Nature Machine Intelligence, 2024.
+\href{https://doi.org/10.1038/s42256-024-00848-0}{doi:10.1038/s42256-024-00848-0}.
+
+\bibitem{xu2013}
+J. Xu, M. D. Collins, and V. Singh. Incorporating user interaction and topological constraints within contour completion via discrete calculus. CVPR, 2013.
+\href{https://doi.org/10.1109/CVPR.2013.246}{doi:10.1109/CVPR.2013.246}.
+
+\bibitem{cranmer2015}
+K. Cranmer, J. Pavez, and G. Louppe. Approximating likelihood ratios with calibrated discriminative classifiers. 2015.
+\url{https://arxiv.org/abs/1506.02169}.
 \end{thebibliography}
 \end{document}
