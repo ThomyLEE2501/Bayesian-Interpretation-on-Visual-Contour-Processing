@@ -360,6 +360,14 @@ I reviewed prior work on inferring stroke programs, binding shape to position, c
 
 **Proposed computation.** Swap the nostrils, vary how much rim is visible, and compare the switch using exact pixel evidence, the existing pixel VSA, and a boundary-based VSA. Fit the calibration on one set of conditions and test it on held-out settings, including binary, grayscale, and color images. Copying pixels provides a control because it enlarges the image without adding evidence. The literature review is complete for this first pass. The encoder comparison remains to be run.
 
+| Part of your proposal | Closest work and what it already delivers | What I would reuse |
+|---|---|---|
+| **Bind geometry, appearance, and placement into one scene vector** | **Renner et al. (2024)** is the closest architectural precedent. Their generative model represents a scene as a sum of bound vector products. A resonator network recovers factors including shape, color, translation, rotation, and scale from synthetic scenes. **Kymn et al. (2024)** also encode learned sparse image features into a hypervector and factorize it to parse the scene. | Start with Renner’s released notebook or PyTorch benchmark for the VSA comparison. Use Kymn as the reference if we replace hand-designed pixel codes with learned visual features. [Renner paper](https://www.nature.com/articles/s42256-024-00848-0) · [Demo notebook](https://doi.org/10.5281/zenodo.10810900) · [PyTorch benchmark](https://doi.org/10.24433/CO.1543398.v1) · [Kymn paper](https://arxiv.org/abs/2404.19126) |
+| **Encode each boundary \(K_i\) and its relative position \(S_i\)** | **Zahn & Roskies (1972)** represented a closed plane curve by its accumulated turning angle along arc length and used Fourier coefficients to analyze and synthesize it. **Komer et al. (2019)** developed spatial semantic pointers for continuous positions, relative translations, and queries over regions of different shapes and sizes. | These give us concrete candidates for both \(K_i\) and \(S_i\). We can put the outer muzzle boundary and the two holes in a shared muzzle-centered frame. The relative displacement of the holes then survives translating the whole muzzle. [Closed-curve descriptors](https://www.cs.jhu.edu/~misha/Papers/Zahn72.pdf) · [Spatial semantic pointers](https://compneuro.uwaterloo.ca/files/publications/komer.2019.pdf) |
+| **Infer strokes or recipes from an image** | **Feinman & Lake, ICLR 2021**, learned a prior over stroke programs and used a symbolic renderer and probabilistic inference to interpret handwritten characters. **CoSE, NeurIPS 2020**, learned fixed-size embeddings of variable-length strokes and modeled relations between strokes to complete drawings. There is a practical distinction: CoSE receives pen trajectories; our encoder receives masked pixels and must infer which fragments belong together. | Use Feinman & Lake as the image-to-program reference and CoSE as a comparison when the boundary curves are already supplied. The GNS repository includes model code, but its published inference path depends on a MATLAB parser. [ICLR paper](https://arxiv.org/abs/2006.14448) · [GNS code and dependencies](https://github.com/rfeinman/GNS-Modeling) · [CoSE paper](https://proceedings.neurips.cc/paper/2020/hash/723e8f97fde15f7a8d5ff8d558ea3f16-Abstract.html) · [CoSE models and code](https://eth-ait.github.io/cose/) |
+| **Render recipes and recover filled regions from pixels** | **diffvg** provides a differentiable vector-graphics rasterizer. **LIVE, CVPR 2022**, fits layered vector paths to raster images with explicit attention to topology. A recent adjacent preprint, **Lang-SVG**, organizes inferred primitives into object–part hierarchies using segmentation and language priors. | Keep our renderer as the exact binary control. Use diffvg for antialiased grayscale and color renders, and LIVE as an image-to-path baseline. This gives us a way to test whether a recovered hole or boundary survives a rendering change before designing a new renderer. [diffvg and code](https://cseweb.ucsd.edu/~tzli/diffvg/) · [LIVE paper](https://openaccess.thecvf.com/content/CVPR2022/html/Ma_Towards_Layer-Wise_Image_Vectorization_CVPR_2022_paper.html) · [LIVE code](https://github.com/Picsart-AI-Research/LIVE-Layerwise-Image-Vectorization) · [Lang-SVG preprint, November 2026](https://arxiv.org/abs/2611.15941) |
+| **Combine incomplete boundaries, prior shapes, and hints** | *Intrinsic Bayesian Active Contours* demonstrates prior-driven boundary recovery with partial obscuration. **Xu, Collins & Singh, CVPR 2013**, already combined contour completion with interior/exterior scribbles and a requested number of closed contours. That is particularly close to your “two nostril holes” example. **PHAC, CVPR 2026**, demonstrates prompt-controlled completion of occluded people. | Treat successful completion with a correct hint as an established result. The more informative comparison is what happens when a *fallible* hint conflicts with a small, diagnostic piece of visible boundary. [Bayesian active contours](https://pmc.ncbi.nlm.nih.gov/articles/PMC2980332/) · [Interactive completion with topology constraints](https://pubmed.ncbi.nlm.nih.gov/33994765/) · [PHAC](https://arxiv.org/abs/2603.14741) |
+
 ## November 23, 2026 — Organizing the code before the grayscale experiment
 
 **You asked** to be able to tell what each Python file or notebook does from its name and folder. After making a backup, you approved the local reorganization and asked me to check every import. You asked to publish the progress log and to include your restatement of clarified intentions after my clarifications in future entries.
@@ -370,8 +378,63 @@ I reviewed prior work on inferring stroke programs, binding shape to position, c
 
 **What needed a plain-language explanation.** Two brightness values can land in the same gray bin. A stretch of boundary can then disappear even with every pixel observed. A nearby stretch with the same original contrast can remain visible if its two values straddle a bin boundary.
 
+| Stage | Images | What we can test |
+|---|---|---|
+| **1. General grayscale scenes** | Generate overlapping curved regions, holes, shadows, and textured backgrounds. Vary contrast, blur, quantization, and noise independently. Keep the full image visible. | We know exactly which patches share a boundary. Test whether the encoder recovers their grouping on unfamiliar shapes and loses confidence when a diagnostic edge disappears. |
+| **2. Paired photographs and Mooney images** | Give the encoder a two-tone image, first alone and then with a category cue. Reserve the source photograph for evaluation. A published resource already pairs 1,854 natural object images with Mooney versions, extending well beyond faces. [THINGS–Mooney study](https://doi.org/10.1038/s44271-026-00441-8) | Hold the pixels fixed and ask whether the cue improves a *specific, independently marked* boundary or patch assignment. The source photograph helps establish what to score. |
+| **3. Natural photographs** | Use unaltered grayscale and color scenes with multiple human segmentations. [Berkeley Segmentation Dataset and Benchmark](https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/resources.html) | Test where the encoder’s groupings agree with observers and whether it retains competing interpretations where observers disagree. |
+
 **Your new ideas and questions.** You proposed using continuous spatial coordinates for measurements and letting the encoder infer which fragments belong to the same stroke. You want to move from generated grayscale scenes toward Mooney images and natural photographs. The first grayscale experiment is planned.
 
 **My clarifications.** Supplying a rule that allows two fragments to share a boundary leaves their actual membership for the model to infer. We can hold the source scene fixed, change the gray bins, and measure whether a hint helps the model recover a boundary that the hint never identified.
 
 **You restating your clarified intentions.** You want to test ambiguity caused by discretizing grayscale. Distinct brightness values can become the same input value, with the original contrast held fixed. The encoder should work beyond animal faces and accept fully observed images. Before building that experiment, you wanted the code organized locally and its imports verified.
+
+## November 24, 2026 — Started building the grayscale experiment
+
+**How is the scene sampled**: 
+
+A seeded scene is sampled by `sample_scene`. The seed makes the same scene reproducible. It randomly chooses:
+
+- Center: x and y each from about 0.43–0.57; orientation: 0–π.
+- Two lobe radii: about 0.103–0.144; half-spacing: 0.18–0.205.
+- Bridge width: 0.027–0.043; bend: −0.045 to 0.045.
+- Light direction and two spot locations/sizes.
+
+The geometry and lighting are constructed in `render`. In rotated coordinates, the lobes are disks centered at `u = -d` and `u = +d` (`shape definition`). The bridge is a band between them, centered on a slightly curved midline (`bridge definition`). The “separated” image uses just the lobes; the “joined” image uses the lobes plus the bridge. Both use the same sampled scene.
+
+Brightness starts at 100, with uniform, diagonal, rotated, or local-spot illumination (`lighting fields`). The shape adds `7 × coverage` gray levels—the contrast is set in `run_grouping_experiment.py`. So fully covered pixels get +7 before quantization, while boundary pixels get a fractional increase due to supersampling.
+
+**How do I configure the lights in the "local condition"?**
+
+In the notebook, `("local", 0)` selects the local-light field, but the light positions and sizes are generated by `sample_scene(SEED)`. Because the seed is fixed, they stay the same between runs. The local field starts at gray level 100 and adds two Gaussian spots: the first bright, the second dark. Their positions `(cx, cy)` and size `sigma` are in normalized image coordinates from 0 to 1. See `sample_scene` and the `local-light calculation`.
+
+To set their positions and sizes explicitly in the notebook, replace the scene’s `spots` before calling `render`:
+
+```python
+from dataclasses import replace
+
+scene = sample_scene(SEED)
+scene = replace(scene, spots=((0.30, 0.45, 0.12), (0.72, 0.55, 0.16)))
+separate, joined, fields = render(
+    scene, SIZE, settings["samples"], 20, spot_amplitude=14
+)
+```
+
+`spot_amplitude` controls how strong both spots are; the first adds that amount and the second subtracts it. The `20` is the gradient span and does not change the local-light field.
+
+### First image-only recovery results
+
+**You asked** to test whether two lobes belong to one continuous region as grayscale quantization makes parts of the connecting bridge disappear. The encoder sees one fully observed image per trial. It receives no cue, mask, or reference drawing.
+
+**I did** run the experiment with 32 training geometries, 16 separate calibration geometries, and 24 held-out geometries. The same test scenes were rendered at 64, 128, and 256 pixels per side. At 128 × 128, the 256-dimensional VSA correctly classified 69.9% of 2,304 images across the lighting and bin settings. Accuracy was 85.9% on the 1,276 images whose joined and separate renders differed, and 50% on the 1,028 images whose renders were identical. On those identical pairs the encoder still gave its chosen answer 58.8% confidence on average. That leaves a measurable calibration error. The eight geometric measurements alone reached 69.5% overall, close to the VSA result. The notebook ran end to end, and all 69 tests passed at the time of the run.
+
+**What needed a plain-language explanation.** In the same 128-pixel scene under the same diagonal light, moving the gray-bin boundary changed how much of the bridge could be seen. At offset 4, 15 of 40 sampled crossings along its edge survived. At offset 12, all 40 disappeared. Part of a lobe remained visible, yet the joined and separate drawings produced exactly the same input.
+
+**Your new ideas and questions.** You proposed varying where the scene is bright or dark so that different stretches of one contour blend into the background. The diagonal ramp and local bright and dark spots put that idea into the first experiment.
+
+**My clarifications.** The simulator knows whether it drew a bridge. Once quantization makes both recipes produce the same pixels, an image-only encoder must give both images the same prediction. With the two recipes equally likely in that pair, 50% is the reference confidence.
+
+**You restating your clarified intentions.** You wanted the original scene and its contrast held fixed while nearby brightness values fall into the same gray bin. You added uneven illumination so that a contour can be partly visible, and asked to begin with the generated scenes before moving on to Mooney images.
+
+Local experiment files: [Executed notebook](computationalExperiments/recovery_from_grayscale_quantization/recovery_from_grayscale_quantization.ipynb) · [Paired scenes and surviving contours](outputs/recovery_from_grayscale_quantization/illumination_and_contours.png) · [Held-out results](outputs/recovery_from_grayscale_quantization/held_out_summary.csv).
