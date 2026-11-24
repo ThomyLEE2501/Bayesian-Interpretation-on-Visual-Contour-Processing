@@ -24,15 +24,26 @@ The **prior** captures which face recipes are familiar. The **image likelihood**
 | --- | --- |
 | [Poster](Poster/Bayesian_Visual_Contour_Poster_24x36.pdf)  | My poster for the undergraduate Berkeley Neuroscience senior poster session.   |
 | [Writeup](writeup/closure_experiment.pdf) · [LaTeX](writeup/closure_experiment.tex) | Current 729-recipe design, equations, prior-learning methods, results and encoder proposal. The source figures are beside the TeX file in [figures](writeup/figures/). |
-| [Baseline notebook](vsa_gestalt_closure.ipynb) · [baseline guide](BASELINE.md) | Counted priors, pixel and vector evidence, full-candidate and iterative inference. [Saved runs](outputs/) include the November 16 visibility, targeted-cue and mixed-cue experiments. |
-| [Prior-learning guide](PRIOR_LEARNING.md) | Executed notebooks for [supervised Hebbian](hebbian_learning.ipynb), [competitive Hebbian](competitive_learning.ipynb) and [Hopfield](hopfield_learning.ipynb) learning. [Results](outputs/) include weights, matched comparisons and capped-noise sweeps. |
-| [Human study guide](psychophysicalExperiment/README.md) · [Windows launcher](<psychophysicalExperiment/Start face study.cmd>) | Desktop and [browser experiment](psychophysicalExperiment/web/index.html), response files, feedback images, session schedules and analysis tools. |
+| [Baseline notebook](computationalExperiments/face_completion/face_completion_counted_priors.ipynb) · [baseline guide](BASELINE.md) | Counted priors, pixel and vector evidence, full-candidate and iterative inference. [Saved runs](outputs/) include the November 16 visibility, targeted-cue and mixed-cue experiments. |
+| [Prior-learning guide](PRIOR_LEARNING.md) | Executed notebooks for [supervised Hebbian](computationalExperiments/prior_learning/supervised_hebbian_category_learning.ipynb), [competitive Hebbian](computationalExperiments/prior_learning/competitive_hebbian_category_learning.ipynb) and [Hopfield](computationalExperiments/prior_learning/hopfield_exemplar_memory.ipynb) learning. [Results](outputs/) include weights, matched comparisons and capped-noise sweeps. |
+| [Human study guide](psychophysicalExperiments/README.md) · [Windows launcher](psychophysicalExperiments/Start%20face%20study.cmd) | Desktop and [live browser experiment](https://thomylee2501.github.io/Bayesian-Interpretation-on-Visual-Contour-Processing/) ([browser source](psychophysicalExperiments/web/index.html)), response files, feedback images, session schedules and analysis tools. |
 | [Daily project log](PROGRESS.md) | Traces the work progress from the cow photograph through the pilot results and includes the chat diagrams. |
 
 
 ## Working from this directory
 
-Open the notebooks from this directory. The baseline notebook selects batch counting. The [full learned-prior notebook](vsa_gestalt_closure_learned_priors.ipynb) defaults to supervised Hebbian learning and exposes the competitive and Hopfield settings. Both use the same renderer and inference code. With the [dependencies](requirements.txt) installed, run the test suite from here.
+| To answer this question | Open this folder |
+| --- | --- |
+| How do image evidence, priors, and hints affect face reconstruction? | [Face completion experiments](computationalExperiments/face_completion/) |
+| How does the model learn a prior? | [Prior learning notebooks](computationalExperiments/prior_learning/) |
+| How are faces rendered and scored? | [Shared model code](contour_models/) |
+| How do I regenerate or execute a notebook? | [Notebook tools](tools/notebooks/) |
+| Where do participant sessions and model replays start? | [Human study guide](psychophysicalExperiments/README.md) |
+| Where are the numerical and information-leakage checks? | [Tests](tests/) |
+
+Open [Recovery from grayscale quantization](computationalExperiments/recovery_from_grayscale_quantization/recovery_from_grayscale_quantization.ipynb) to see how gray-bin placement and lighting affect the grouping of two lobes. Under **Set up the signal**, edit `manual_scene()` to place lobes, choose their shapes and bridges, and set their brightness relative to the local background. The preview shows which edges survive quantization. The held-out probabilities come from the seeded two-lobe benchmark. To refit from the project root, run `python -m computationalExperiments.recovery_from_grayscale_quantization.run_grouping_experiment`, then run the notebook for the plots. [Saved measurements](outputs/recovery_from_grayscale_quantization/held_out_summary.csv) include the 64, 128, and 256 pixel conditions. For the filenames printed in the November writeup, see the [source tree used for that version](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/tree/dd52ae9cfbb52e443c931c747206816a57466ff9).
+
+Open a working notebook from its experiment folder in Jupyter. The baseline notebook uses batch counting. The [full learned-prior notebook](computationalExperiments/face_completion/face_completion_learned_priors.ipynb) defaults to supervised Hebbian learning and exposes the competitive and Hopfield settings. To run a notebook from a terminal, use `python tools/notebooks/execute_notebook.py computationalExperiments/face_completion/face_completion_counted_priors.ipynb` from the project root. The `build_*.py` tools replace their corresponding notebook with an unexecuted copy. With the [dependencies](requirements.txt) installed, run the test suite from the project root.
 
 ~~~powershell
 python -m unittest discover

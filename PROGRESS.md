@@ -392,6 +392,8 @@ I reviewed prior work on inferring stroke programs, binding shape to position, c
 
 ## November 24, 2026 — Started building the grayscale experiment
 
+### Notes to Thomy for tweaking render params
+
 **How is the scene sampled**: 
 
 A seeded scene is sampled by `sample_scene`. The seed makes the same scene reproducible. It randomly chooses:
@@ -438,3 +440,25 @@ separate, joined, fields = render(
 **You restating your clarified intentions.** You wanted the original scene and its contrast held fixed while nearby brightness values fall into the same gray bin. You added uneven illumination so that a contour can be partly visible, and asked to begin with the generated scenes before moving on to Mooney images.
 
 Local experiment files: [Executed notebook](computationalExperiments/recovery_from_grayscale_quantization/recovery_from_grayscale_quantization.ipynb) · [Paired scenes and surviving contours](outputs/recovery_from_grayscale_quantization/illumination_and_contours.png) · [Held-out results](outputs/recovery_from_grayscale_quantization/held_out_summary.csv).
+
+### How Thomy wants to change the scene config implementation:
+
+"I checked your implementation and there are a few things I'd like to change. Let's start with the lobes and bridge(s) (which in the following discussion I would call signal) setup. I'd like to make this more flexible and allow for manual setups. Instead of a single center coordinates, I would like for it to be a list of the coordinates of the local "origin" of the reference frame that describes each signal component shapes. So it would be something like centers = [(x_lobe1, y_lobe1), (x_lobe2, y_lobe2), ...]. The shapes of lobes will not be fixed as "((u+d)**2 + v**2 <= scene.radii[0]**2)" in the render function, but defined by a separate function parametrizing closed curves based on the centers[i], with the circle as default. Likewise with bridge bending. Default setup to 2 lobes and one bridge, but allow configuring multiple lobes and bridges, as long as #bridges < #lobes. Not every lobe needs to be connected to one other lobe. Refer to https://fa24.datastructur.es/projects/proj3 for inspiration: connecting lobes and bridges should be similar to connecting rooms and hallways. I would also like for the signal brightness to be adjustable. From what I understand, it is currently set as uniformly 7 levels above background mean. The signal should be allowed to be darker than the background mean. I would like this scene config to be available as a function in the notebook that the if MANUAL_SET_SCENE can call, for a more intuitive UI."
+
+
+
+### Manual signal geometry and brightness
+
+**You asked** for a notebook control that lets you place each lobe, draw its outline in its own coordinates, and choose which pairs to bridge. Your rooms-and-hallways example allows an isolated lobe even when other lobes connect.
+
+**I did** add `manual_scene()` under **Set up the signal**. It starts with two circles and one bridge. Each lobe accepts a circle, an ellipse, or a custom closed curve. Each bridge specifies two lobe indices, a width, and a bend profile. The number of bridges must be smaller than the number of lobes. A four-lobe preview with two bridges left one lobe isolated. The original seeded renders matched pixel for pixel across five seeds at three resolutions, and all 73 tests passed. [Experiment notebook](computationalExperiments/recovery_from_grayscale_quantization/recovery_from_grayscale_quantization.ipynb)
+
+![Manual two-lobe scene under uniform, diagonal and local lighting, with quantized images and surviving edges](outputs/recovery_from_grayscale_quantization/manual_scene_preview.png)
+
+**What needed a plain-language explanation.** Brightness follows the local illumination. With `signal_offset=-7`, a fully covered pixel over a background value of 100 becomes 93 before quantization. At the same position, a half-covered pixel becomes 96.5.
+
+**Your new ideas and questions.** You proposed varying shape and connectivity independently so that placing a lobe does not automatically connect it to its neighbor.
+
+**My clarifications.** The manual preview compares one layout with its listed bridges present and absent. The saved held-out accuracy measures recovery on the seeded two-lobe benchmark. The dark four-lobe example checked the renderer and preview.
+
+**You restating your clarified intentions.** Your design note above asks to keep two lobes and one bridge as the starting point and to make local shape, connectivity, and signed brightness editable in the notebook.

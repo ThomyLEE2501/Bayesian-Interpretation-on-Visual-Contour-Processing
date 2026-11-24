@@ -1,10 +1,10 @@
 # VSA closure with Hebbian, competitive and Hopfield learning
 
 These experiments extend the [counted-prior baseline](BASELINE.md) using the shared face renderer.
-Start with **hebbian_learning.ipynb** for the new online training experiment.
-Open **competitive_learning.ipynb** for label-free competitive learning,
+Start with **computationalExperiments/prior_learning/supervised_hebbian_category_learning.ipynb** for the new online training experiment.
+Open **computationalExperiments/prior_learning/competitive_hebbian_category_learning.ipynb** for label-free competitive learning,
 multiple random seeds, unit-usage diagnostics and held-out completion comparisons.
-Open **hopfield_learning.ipynb** for the energy-based exemplar prior, the kernel
+Open **computationalExperiments/prior_learning/hopfield_exemplar_memory.ipynb** for the energy-based exemplar prior, the kernel
 reference, and recurrent completion of partial feature cues.
 The experiments use the current version 2 renderer with
 729 face recipes. Eye shape has three values: dots, arches, and oval pupils.
@@ -25,8 +25,8 @@ setting changes the relative strength of observations and initial pseudocounts.
 The other prior families retain their existing fitting methods.
 
 ```python
-from hebbian_prior import SupervisedHebbianPrior
-from closure_model import CARDINALITIES, CLASS_NAMES
+from contour_models.hebbian_category_priors import SupervisedHebbianPrior
+from contour_models.face_recipes_and_observations import CARDINALITIES, CLASS_NAMES
 
 learner = SupervisedHebbianPrior(CARDINALITIES, len(CLASS_NAMES))
 learner.update([1, 2, 2, 2, 0, 0], category=0)
@@ -36,16 +36,16 @@ print(learner.feature_probabilities[3])  # category-specific nose probabilities
 To run the notebooks and tests from the project root, use
 
 ```powershell
-python execute_notebook.py hebbian_learning.ipynb
-python execute_notebook.py competitive_learning.ipynb
-python execute_notebook.py hopfield_learning.ipynb
-python execute_notebook.py vsa_gestalt_closure_learned_priors.ipynb
-python -m unittest -v test_closure_model test_hebbian_prior test_competitive_prior test_hopfield_prior
+python tools/notebooks/execute_notebook.py computationalExperiments/prior_learning/supervised_hebbian_category_learning.ipynb
+python tools/notebooks/execute_notebook.py computationalExperiments/prior_learning/competitive_hebbian_category_learning.ipynb
+python tools/notebooks/execute_notebook.py computationalExperiments/prior_learning/hopfield_exemplar_memory.ipynb
+python tools/notebooks/execute_notebook.py computationalExperiments/face_completion/face_completion_learned_priors.ipynb
+python -m unittest -v tests.test_face_completion tests.test_supervised_hebbian_prior tests.test_competitive_hebbian_prior tests.test_hopfield_exemplar_prior
 ```
 
 The dedicated notebook saves its figures, a comparison summary, and learned
 weights under `outputs/hebbian/`. Rebuilding it with
-`python build_hebbian_notebook.py` replaces that notebook with an unexecuted copy.
+`python tools/notebooks/build_supervised_hebbian_category_learning.py` replaces that notebook with an unexecuted copy.
 Save notebook edits before rebuilding.
 
 ## Competitive learning
@@ -57,8 +57,8 @@ Hebbian update. Feature observations and the number of units remain supplied.
 The update does not guarantee category discovery or monotonically improving loss.
 
 ```python
-from hebbian_prior import CompetitiveHebbianPrior
-from closure_model import CARDINALITIES
+from contour_models.hebbian_category_priors import CompetitiveHebbianPrior
+from contour_models.face_recipes_and_observations import CARDINALITIES
 
 learner = CompetitiveHebbianPrior(CARDINALITIES, n_units=3, seed=0)
 learner.fit(training_features, epochs=20, shuffle_seed=0)
@@ -70,7 +70,7 @@ under a one-to-one unit/name alignment. It reports every fixed random seed and u
 the first for its example. It compares completion against uniform and supervised
 priors on identical fragments. A homeostasis ablation and hard/soft usage reports
 help reveal duplicate or inactive units. Reports and weights go into
-`outputs/competitive/`. Run `python build_competitive_notebook.py` to rebuild the
+`outputs/competitive/`. Run `python tools/notebooks/build_competitive_hebbian_category_learning.py` to rebuild the
 unexecuted notebook, saving any notebook edits first.
 
 ## Hopfield exemplar memory
@@ -84,8 +84,8 @@ the entire training corpus leave the energy unchanged. Repeated individual
 examples still affect their relative contribution.
 
 ```python
-from hopfield_prior import HopfieldExemplarPrior
-from closure_model import CARDINALITIES
+from contour_models.hopfield_exemplar_prior import HopfieldExemplarPrior
+from contour_models.face_recipes_and_observations import CARDINALITIES
 
 memory = HopfieldExemplarPrior(CARDINALITIES, inverse_temperature=1.0)
 memory.fit(training_features)
@@ -108,13 +108,13 @@ Image completion separately combines the learned prior with the existing
 pixel/VSA evidence. Category labels enter neither memory training nor retrieval.
 
 Reports, figures, and learned weights go into `outputs/hopfield/`.
-Run `python build_hopfield_notebook.py` to rebuild its unexecuted notebook,
+Run `python tools/notebooks/build_hopfield_exemplar_memory.py` to rebuild its unexecuted notebook,
 saving any notebook edits first. Prior entropy and inverse temperature should
 be considered when comparing the two exemplar models.
 
 ## Full experiment with learned priors
 
-Open **vsa_gestalt_closure_learned_priors.ipynb** and run all cells. It ships with executed outputs.
+Open **computationalExperiments/face_completion/face_completion_learned_priors.ipynb** and run all cells. It ships with executed outputs.
 The first parameter cell controls vector dimensions, prior strength, noise,
 visibility, and number of trials. No network, API key, or GPU is needed.
 
@@ -133,7 +133,7 @@ equations, controls, metrics, references, and suggestions for extending the mode
 
 ```powershell
 $env:OPENBLAS_NUM_THREADS = '1'
-python compare_experiment_priors.py
+python computationalExperiments/face_completion/compare_priors_on_six_hint_trials.py
 ```
 
 The script compares batch counting, supervised Hebbian category fitting,
@@ -156,7 +156,7 @@ predictions against the saved poster grid, pass
 
 ### Visibility and hints with pixel flips capped at 20%
 
-Run `python compare_capped_noise.py` to compare feature counts and label-free
+Run `python computationalExperiments/face_completion/compare_priors_under_pixel_flips.py` to compare feature counts and label-free
 Hebbian learning across 2%, 5%, 10%, 15%, and 20% pixel flips. Each condition
 uses the same 64 held-out faces by default. The simulator flips the requested
 share of visible pixels, rounded down, so each image stays at or below 20%.
@@ -167,11 +167,11 @@ the five rates, the contours for each rate, and their source means.
 
 ## Files
 
-- `vsa_gestalt_closure_learned_priors.ipynb`: experiment and tuning controls, with plots.
-- `closure_model.py`: renderer, train/test split, learned priors, metrics.
-- `vsa_inference.py`: role binding, image encoding, probabilistic/variational inference.
-- `test_closure_model.py`: numerical and leakage checks.
-- `execute_notebook.py`: optional in-process IPython runner, capturing cell outputs without kernel sockets.
+- `computationalExperiments/face_completion/face_completion_learned_priors.ipynb`: experiment and tuning controls, with plots.
+- `contour_models/face_recipes_and_observations.py`: renderer, train/test split, learned priors, metrics.
+- `contour_models/vsa_inference.py`: role binding, image encoding, probabilistic/variational inference.
+- `tests/test_face_completion.py`: numerical and leakage checks.
+- `tools/notebooks/execute_notebook.py`: optional in-process IPython runner, capturing cell outputs without kernel sockets.
 - `outputs/learned_priors/`: paired benchmark CSV, figures, and run summary generated by the notebook.
 
 ## Environment and checks
@@ -183,7 +183,7 @@ For the notebook UI, use JupyterLab/Notebook or an editor with Jupyter support.
 From this directory:
 
 ```powershell
-python -m unittest -v test_closure_model
+python -m unittest -v tests.test_face_completion
 ```
 
 The benchmark is exploratory. Selecting a winning setting from its results requires

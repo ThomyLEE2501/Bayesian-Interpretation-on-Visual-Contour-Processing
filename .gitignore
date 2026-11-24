@@ -6,7 +6,7 @@ __pycache__/
 venv/
 .env
 .env.*
-/build_notebook.py
-/build_learned_priors_notebook.py
+/tools/notebooks/build_face_completion_counted_priors.py
+/tools/notebooks/build_face_completion_learned_priors.py
 participant_sessions/
 /Poster/Written_parts/

@@ -8,7 +8,7 @@ Now look for a **cow’s face**. Once one patch reads as a muzzle, the patches a
 
 **This project asks when top-down expectations help us recover a missing contour and when they lead us to invent one.** A related experiment made that change visible on paper. Participants drew the hidden regions of two-tone Mooney images before and after seeing the grayscale originals. Independent judges rated the later drawings as closer to the originals. [Lazarova et al. (2025)](https://doi.org/10.1111/tops.70018)
 
-[Try the 50-trial browser experiment](https://thomylee2501.github.io/Baysian-Intrepretation-on-Visual-Contour-Processing/) · [Explore the computational notebook](vsa_gestalt_closure.ipynb)
+[Try the 50-trial browser experiment](https://thomylee2501.github.io/Bayesian-Interpretation-on-Visual-Contour-Processing/) · [Explore the computational notebook](computationalExperiments/face_completion/face_completion_counted_priors.ipynb)
 
 ## How evidence and expectation combine
 
@@ -32,19 +32,19 @@ In one controlled simulation, we gave two wrong nose hints per face on three hel
 
 Participants first see the 18 feature options and a typical face from each category. On each of **50 shuffled trials**, they choose six features to reconstruct a masked, noisy face. By default, they receive zero to six hints and a tally of how many are correct. After confirming, they see the masked image, their reconstruction, and the original side by side.
 
-Accuracy is the number of features recovered out of six. Uniform guessing averages two. The session records the presented pixels, mask, hints, and each choice so the model and participant can be compared on the same trial. Feedback PNGs and the response CSV are saved locally. [Run the study](https://thomylee2501.github.io/Baysian-Intrepretation-on-Visual-Contour-Processing/) · [Browser source](https://github.com/ThomyLEE2501/Baysian-Intrepretation-on-Visual-Contour-Processing/tree/gh-pages)
+Accuracy is the number of features recovered out of six. Uniform guessing averages two. The session records the presented pixels, mask, hints, and each choice so the model and participant can be compared on the same trial. Feedback PNGs and the response CSV are saved locally. [Run the study](https://thomylee2501.github.io/Bayesian-Interpretation-on-Visual-Contour-Processing/) · [Browser source](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/tree/gh-pages)
 
 ## Where vector symbolic architectures fit
 
 **Vector symbolic architectures (VSA) are a secondary hypothesis about how the visual system might represent and exchange evidence.** The Bayesian model already works by counting mismatches at visible pixels. The notebook tests a VSA alternative that assigns high-dimensional codes to pixel positions and approximates the mismatch score by the distance between two image vectors. Comparing the two posteriors measures what that encoding preserves and where it introduces error.
 
-Full-candidate inference scores all 729 recipes. It produces a most probable drawing (MAP) and a posterior-mean image whose gray pixels show where plausible drawings disagree. Iterative inference approximates that calculation by updating beliefs one feature at a time. Running the same updates with ordinary or VSA-encoded messages isolates the effect of the representation. [Inference code](vsa_inference.py) · [Hidden-eye control](outputs/baseline/eye_shape_control.png)
+Full-candidate inference scores all 729 recipes. It produces a most probable drawing (MAP) and a posterior-mean image whose gray pixels show where plausible drawings disagree. Iterative inference approximates that calculation by updating beliefs one feature at a time. Running the same updates with ordinary or VSA-encoded messages isolates the effect of the representation. [Inference code](contour_models/vsa_inference.py) · [Hidden-eye control](outputs/baseline/eye_shape_control.png)
 
 ## Run the simulation
 
-Open the [executed Jupyter notebook](vsa_gestalt_closure.ipynb) to inspect the figures. To rerun it, install the [requirements](requirements.txt) in a Python environment and run all cells. The first parameter cell controls visibility, noise, prior strength, and vector dimension. The [renderer and prior-fitting code](closure_model.py) and [saved benchmark outputs](outputs/baseline/) are available separately.
+Open the [executed Jupyter notebook](computationalExperiments/face_completion/face_completion_counted_priors.ipynb) to inspect the figures. To rerun it, install the [requirements](requirements.txt) in a Python environment and run all cells. The first parameter cell controls visibility, noise, prior strength, and vector dimension. The [renderer and prior-fitting code](contour_models/face_recipes_and_observations.py) and [saved benchmark outputs](outputs/baseline/) are available separately.
 
 ```sh
 python -m pip install -r requirements.txt
-python -m unittest -v test_closure_model
+python -m unittest -v tests.test_face_completion
 ```

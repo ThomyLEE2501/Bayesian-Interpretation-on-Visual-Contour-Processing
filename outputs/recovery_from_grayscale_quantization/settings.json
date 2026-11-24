@@ -1,0 +1,10 @@
+{
+  "fit_count": 32,
+  "calibration_count": 16,
+  "test_count": 24,
+  "samples": 4,
+  "contrast": 7.0,
+  "gradient_span": 10.0,
+  "spot_amplitude": 11.0,
+  "codebook_seed": 117
+}
