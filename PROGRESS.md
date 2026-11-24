@@ -24,7 +24,7 @@ Your reference diagram for the question about feedback between levels:
 
 **You asked** me to push the notebook and supporting files to the GitHub repository you specified, initially private.
 
-**I did** finish and execute the first notebook after midnight. It varied visibility, pixel noise, prior strength and vector dimension. It compared exact-pixel and VSA evidence, included a misleading-cue condition and tested genuinely open contours. After you completed sign-in, I pushed it to the private repository. [Current baseline notebook](vsa_gestalt_closure.ipynb)
+**I did** finish and execute the first notebook after midnight. It varied visibility, pixel noise, prior strength and vector dimension. It compared exact-pixel and VSA evidence, included a misleading-cue condition and tested genuinely open contours. After you completed sign-in, I pushed it to the private repository. [Current baseline notebook](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/blob/dd52ae9cfbb52e443c931c747206816a57466ff9/vsa_gestalt_closure.ipynb)
 
 **What needed an ELI5 explanation.** No new conceptual question was recorded during the repository handoff. The first experiment gave the sketch question two separate scores. Filling a hidden stroke earns credit if a stroke really belongs there. Drawing across a truly empty gap counts as an invention. One reconstruction can do both.
 
@@ -40,7 +40,7 @@ The main chat illustrated this comparison with a completion panel. This is the r
 
 **You asked** how training worked, whether VSA did the training, and for a plain-language walk through the layout, category and exemplar priors in `fit_priors()`. In a related chat you connected the face experiment to maximum a posteriori estimation (MAP).
 
-**I did** trace the code from training feature rows to one prior score per possible drawing. We separated the drawings used for fitting from the combinations held out for reconstruction. [Baseline implementation](closure_model.py)
+**I did** trace the code from training feature rows to one prior score per possible drawing. We separated the drawings used for fitting from the combinations held out for reconstruction. [Baseline implementation](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/blob/dd52ae9cfbb52e443c931c747206816a57466ff9/closure_model.py)
 
 **What needed an ELI5 explanation.** Imagine a pile of recipe cards. A layout prior counts how often arrangements occur. A category prior counts how often each ingredient occurs within a group such as cow-like faces, then can mix across groups. An exemplar prior asks how closely a recipe resembles whole training examples. A uniform prior gives every recipe the same starting weight. Adding a small count to every option keeps an unseen option possible.
 
@@ -100,7 +100,7 @@ flowchart LR
 
 **You asked** me to fix notebook math delimiters, preserve block masks, keep the notebook builder locally, and investigate why the example face looked perfect under every cue. You asked me to try different seeds, visibilities and prior weights. In parallel, you requested a pipeline diagram and a local copy for supervised and label-free Hebbian learning.
 
-**I did** verify that the posterior was recomputed for each cue. I increased the precision of its display and found an illustrative mask with seed 67. A target visibility of 47% revealed 62.5% of this particular image. With cue strength 3, correct and wrong cues produced different eye spacings despite equally good visible fits. I kept the 0–24 sweep. In the learning copy, one-pass supervised Hebbian learning reproduced the batch-count result at matching settings. The competitive notebook compared three training seeds and recorded how often each unit was used. [Supervised notebook](hebbian_learning.ipynb) · [Competitive notebook](competitive_learning.ipynb)
+**I did** verify that the posterior was recomputed for each cue. I increased the precision of its display and found an illustrative mask with seed 67. A target visibility of 47% revealed 62.5% of this particular image. With cue strength 3, correct and wrong cues produced different eye spacings despite equally good visible fits. I kept the 0–24 sweep. In the learning copy, one-pass supervised Hebbian learning reproduced the batch-count result at matching settings. The competitive notebook compared three training seeds and recorded how often each unit was used. [Supervised notebook](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/blob/dd52ae9cfbb52e443c931c747206816a57466ff9/hebbian_learning.ipynb) · [Competitive notebook](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/blob/dd52ae9cfbb52e443c931c747206816a57466ff9/competitive_learning.ipynb)
 
 **What needed an ELI5 explanation.** A printed probability of 1.00 can hide a value such as 0.99999954. A mask can reveal enough distinctive marks to identify one recipe among 486. For supervised Hebbian learning, a category and its observed features are active together, strengthening their connections. With competition, several anonymous units respond and the more active ones learn more from that face.
 
@@ -136,7 +136,7 @@ The main chat also showed the same fragment under different category cues. The c
 
 **You asked** us to keep the terms *renderer* and *generator* consistent, explain supervised Hebbian learning, and choose between implementing pixel-based geometry or a Hopfield exemplar prior. You chose Hopfield and asked where a resonator would fit in a future system.
 
-**I did** add and execute the Hopfield notebook. It learns pairwise associations among feature values, scores complete recipes by energy, and separately tests retrieval from partial feature cues. I drew the three pipelines below. [Hopfield notebook](hopfield_learning.ipynb)
+**I did** add and execute the Hopfield notebook. It learns pairwise associations among feature values, scores complete recipes by energy, and separately tests retrieval from partial feature cues. I drew the three pipelines below. [Hopfield notebook](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/blob/dd52ae9cfbb52e443c931c747206816a57466ff9/hopfield_learning.ipynb)
 
 **What needed an ELI5 explanation.** In supervised Hebbian learning, a supplied label tells the model which unit is active while a feature appears. The co-activity rule still determines the weight change. In a Hopfield memory, combinations of features that fit learned associations can settle into low-energy states. A probability proportional to $e^{-\beta E}$ gives a lower-energy recipe more weight. Clamping a known feature is like holding one puzzle piece in place while trying the others.
 
@@ -222,7 +222,7 @@ flowchart TD
 
 **You asked** what $r_{\rm pixel}$ contributes when $y_{uv}$ already says what is at row $u$, column $v$. You also asked whether zero is black or white, and why the code uses 0/1 when its vectors use −1/+1.
 
-**I did** work through the encoding and the effect of changing conventions. [Image encoder](vsa_inference.py)
+**I did** work through the encoding and the effect of changing conventions. [Image encoder](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/blob/dd52ae9cfbb52e443c931c747206816a57466ff9/vsa_inference.py)
 
 **What needed an ELI5 explanation.** In the drawings, 1 means a black stroke and 0 means white background. The pixel value says how much to add. Row and column codes say where. A role code says what kind of information is being stored. Multiplying every candidate and observation by the same bipolar role preserves their distances. With the same mask, switching pixel values to $2y-1$ doubles each difference and multiplies squared distance by four.
 
@@ -336,7 +336,7 @@ I exported the [poster PNG](Poster/Bayesian_Visual_Contour_Poster_24x36_Hint_Tun
 
 **Research question.** How much evidence for a face does a difference in encoded image distance provide? The revised writeup introduces a weight on the VSA score with the learned prior and hint reliability held fixed. The reported runs used visual weight one. The earlier prior-weight sweep, including α = 12, measures sensitivity to learned familiarity. [Writeup](writeup/closure_experiment.pdf)
 
-**Completed comparison.** On the same 12 held-out faces, image evidence alone recovered 5.35 of six features on average. Adding hints at 50% assumed reliability gave 5.55, with exact recovery rising from 55.8% to 69.8%. The sweep varied the prior weight and assumed hint reliability across ten visibility levels and zero through six correct hints. It therefore answers a different question from fitting a visual weight. [Sweep](sweep_hint_reliability.py) · [Summary](outputs/hint_reliability/summary.csv) · [Condition results](outputs/hint_reliability/by_condition.csv)
+**Completed comparison.** On the same 12 held-out faces, image evidence alone recovered 5.35 of six features on average. Adding hints at 50% assumed reliability gave 5.55, with exact recovery rising from 55.8% to 69.8%. The sweep varied the prior weight and assumed hint reliability across ten visibility levels and zero through six correct hints. It therefore answers a different question from fitting a visual weight. [Sweep](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/blob/dd52ae9cfbb52e443c931c747206816a57466ff9/sweep_hint_reliability.py) · [Summary](outputs/hint_reliability/summary.csv) · [Condition results](outputs/hint_reliability/by_condition.csv)
 
 **What needed an ELI5 explanation.** Flattening an image keeps all its pixels. Counting disagreements summarizes one candidate comparison exactly under the independent flip model. Superposing pixels into 512 code coordinates adds cross-talk. Across random codebooks the squared distance has the right mean, while a particular pair of faces can look closer or farther apart.
 
@@ -359,3 +359,19 @@ I reviewed prior work on inferring stroke programs, binding shape to position, c
 **Plain-language example.** Suppose a hint says the long nostril is on the left. If the two sides were equally likely and the hint is right 80% of the time on either side, it gives left a four-to-one advantage. A glimpse of the right rim should change the answer only when it gives stronger evidence for right. The hint counts once across the whole stroke.
 
 **Proposed computation.** Swap the nostrils, vary how much rim is visible, and compare the switch using exact pixel evidence, the existing pixel VSA, and a boundary-based VSA. Fit the calibration on one set of conditions and test it on held-out settings, including binary, grayscale, and color images. Copying pixels provides a control because it enlarges the image without adding evidence. The literature review is complete for this first pass. The encoder comparison remains to be run.
+
+## November 23, 2026 — Organizing the code before the grayscale experiment
+
+**You asked** to be able to tell what each Python file or notebook does from its name and folder. After making a backup, you approved the local reorganization and asked me to check every import. You asked to publish the progress log and to include your restatement of clarified intentions after my clarifications in future entries.
+
+**I did** reorganize the local working copy. Face completion notebooks and parameter sweeps live in `experiments/face_completion/`. The notebooks that teach how each prior is learned live in `experiments/prior_learning/`. Shared implementations live in `contour_models/`, regression checks in `tests/`, and notebook builders and the execution tool in `tools/notebooks/`. The participant study keeps its existing folder with clearer script names. The three saved run notebooks stay beside their results. GitHub retains the earlier code layout for now. [Published code at the time of the reorganization](https://github.com/ThomyLEE2501/Bayesian-Interpretation-on-Visual-Contour-Processing/tree/dd52ae9cfbb52e443c931c747206816a57466ff9)
+
+**Verification.** All 66 tests passed before and after the move. The exact-pixel and VSA posteriors for a fixed-seed face each matched their own earlier values byte for byte across 729 candidates. I checked the imports in all Python files and all eight notebooks, executed the five working notebooks in an isolated copy, and verified that all five builders reproduced their notebook's cell sources. The saved outputs stayed intact.
+
+**What needed a plain-language explanation.** Two brightness values can land in the same gray bin. A stretch of boundary can then disappear even with every pixel observed. A nearby stretch with the same original contrast can remain visible if its two values straddle a bin boundary.
+
+**Your new ideas and questions.** You proposed using continuous spatial coordinates for measurements and letting the encoder infer which fragments belong to the same stroke. You want to move from generated grayscale scenes toward Mooney images and natural photographs. The first grayscale experiment is planned.
+
+**My clarifications.** Supplying a rule that allows two fragments to share a boundary leaves their actual membership for the model to infer. We can hold the source scene fixed, change the gray bins, and measure whether a hint helps the model recover a boundary that the hint never identified.
+
+**You restating your clarified intentions.** You want to test ambiguity caused by discretizing grayscale. Distinct brightness values can become the same input value, with the original contrast held fixed. The encoder should work beyond animal faces and accept fully observed images. Before building that experiment, you wanted the code organized locally and its imports verified.
