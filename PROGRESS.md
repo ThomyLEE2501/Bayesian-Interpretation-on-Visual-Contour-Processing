@@ -462,3 +462,26 @@ Local experiment files: [Executed notebook](computationalExperiments/recovery_fr
 **My clarifications.** The manual preview compares one layout with its listed bridges present and absent. The saved held-out accuracy measures recovery on the seeded two-lobe benchmark. The dark four-lobe example checked the renderer and preview.
 
 **You restating your clarified intentions.** Your design note above asks to keep two lobes and one bridge as the starting point and to make local shape, connectivity, and signed brightness editable in the notebook.
+
+## November 25, 2026 - Independent grayscale fields for the signal and background
+
+**You asked** to design two complete brightness fields in the scene editor. Your sketch shows a lobe-and-bridge footprint cut from a striped signal field and pasted onto a separately shaded background.
+
+<details>
+<summary>Original design sketch (available in the local review copy)</summary>
+
+![Hand-drawn background and striped signal, with an arrow showing how the lobes and bridge are cut out and pasted onto the background](diagrams/independent-grayscale-fields-sketch.jpg)
+
+</details>
+
+**I did** add the same four choices to both layers in `manual_scene()`: uniform, an oriented linear ramp, periodic stripes superimposed on a ramp, and one to five local spots with individually signed strengths. The notebook displays the full background, the full signal, and the composite before quantization. The manual example uses a background baseline of 100 and a signal baseline of 107. A reproducible random option samples both fields. All 77 tests passed. The notebook ran end to end, and the random-field and shared-illumination preview modes were also exercised.
+
+**What needed a plain-language explanation.** The signal offset sets its baseline. For an offset of +7 and stripe amplitude 14, the signal spans 93 to 121. Within a single lobe it can cross from darker than the surrounding surface to brighter. The outline diagnostic uses the local contrast direction at each crossing.
+
+**Your new ideas and questions.** You proposed controlling stripe width and phase independently of grayscale bin width and offset. That makes it possible to move a stripe across a fixed bridge before discretizing the image.
+
+**My clarifications.** The periodic option uses a sinusoid. Band width is the distance from a trough to a peak, and a full cycle spans two bands. The cropped field replaces the background wherever the geometry fully covers a pixel. Fractional coverage mixes the two intensities at the edge before quantization.
+
+**You restating your clarified intentions.** You specified that the signal should first fill the entire 128 by 128 field. Only the pixels belonging to the signal geometry should appear on top of the background.
+
+The local writeup now follows one held-out geometry through the region encoder and the 64- and 256-coordinate VSA readouts in Section 8.6. Figure 6 shows where quantization or component filtering erases the bridge evidence. Section 8.7 and Figure 7 document the new layer controls and a rendered example. Held-out performance on independently patterned layers has yet to be measured. The code, sketch, figures, and revised writeup are local for review.
