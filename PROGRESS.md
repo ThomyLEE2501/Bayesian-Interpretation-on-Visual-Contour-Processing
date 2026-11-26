@@ -485,3 +485,44 @@ Local experiment files: [Executed notebook](computationalExperiments/recovery_fr
 **You restating your clarified intentions.** You specified that the signal should first fill the entire 128 by 128 field. Only the pixels belonging to the signal geometry should appear on top of the background.
 
 The local writeup now follows one held-out geometry through the region encoder and the 64- and 256-coordinate VSA readouts in Section 8.6. Figure 6 shows where quantization or component filtering erases the bridge evidence. Section 8.7 and Figure 7 document the new layer controls and a rendered example. Held-out performance on independently patterned layers has yet to be measured. The code, sketch, figures, and revised writeup are local for review.
+
+### Posterior credibility of a bridge-width hint
+
+The posterior belief in the hint’s claim is already in $P(C\mid I,H)$. What’s missing is a symbol for the claim itself. The left-hand side asks “Which contour is present?” You’re asking “How much probability do I now give to the contours for which this hint is true?” Annotation 1
+
+Take your example. The viewer hears “same bridge width as before.” Call that message $h$, and let $A_h$ be the set of candidate contours whose bridge has the reference width. Then the credibility you mean is exactly
+
+$$
+\boxed{
+P(\text{hint's claim is true}\mid I,H=h)
+=\sum_{c\in A_h}P(C=c\mid I,H=h).
+}
+$$
+
+If there are only two candidates, familiar width and wider, the sum has one term. The posterior probability of the familiar width is the posterior credibility of the hint. If ten different contours have the familiar width, their probabilities add. The viewer can be confident about the width while remaining uncertain about the rest of the contour.
+
+We can also write your question as a Bayesian update in its own right. Let $T$ mean “the bridge has the reference width.” Then
+
+$$
+P(T\mid I,H=h)
+=
+\frac{P(H=h\mid T,I)\,P(T\mid I)}{P(H=h\mid I)}.
+$$
+
+Read it in order: after seeing the image, how plausible is the familiar width? That’s $P(T\mid I)$. How much should hearing “same width” revise that belief? That depends on how likely the source would be to say it when $T$ is true versus when $T$ is false.
+
+## November 26, 2026 - A two-tone pelican
+
+**You asked** to try the grayscale pipeline on realistic faces and then publish the stages that produced the pelican puzzle. [View the puzzle before the reveal](outputs/grayscale_animal_faces/pelican_demo/quantized.png).
+
+**I did** prepare eleven local subjects: ten generated animal portraits, including one bullfrog and one snake, plus Oski cropped from your photograph. Four background patterns, three brightness baselines, and two compositing methods gave 264 unquantized images. Four bin widths and four phases per width gave 4,224 quantized images. The pelican demo starts from its original transparent portrait and reproduces all 16,384 pixels of the selected image. [Reproduction and batch script](computationalExperiments/recovery_from_grayscale_quantization/make_animal_face_stimuli.py)
+
+![Pelican cutout, striped grayscale background, composite before quantization, and final two-tone image](outputs/grayscale_animal_faces/pelican_demo/how_it_was_made.png)
+
+**What needed a plain-language explanation.** The background's diagonal stripes exist before the pelican is placed. Crop-and-paste replacement keeps the face's own brightness inside its silhouette. Quantization then groups parts of the bill and background into the same gray level, interrupting the apparent outline.
+
+**Your new ideas and questions.** You found the pelican difficult to identify before the cue and easy to see afterward. This suggests a way to generate candidate Mooney-style puzzles systematically. Recognition before and after a cue remains an empirical question for viewers.
+
+**My clarifications.** I matched the supplied picture against the saved pelican variants. Its periodic background has baseline 160. The final quantizer uses width 128 and phase 0, mapping intensities 0-127 to 64 and 128-255 to 192. The two visible tones come from quantizing the whole composite.
+
+**You restating your clarified intentions.** You wanted readers to see how this particular image was made and have the scripts to make more. You selected the pelican for the public demo and kept the full collection local.

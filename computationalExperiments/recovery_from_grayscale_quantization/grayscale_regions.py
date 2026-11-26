@@ -1,4 +1,5 @@
 """Paired continuous regions under illumination and grayscale quantization."""
+from cmath import phase
 from dataclasses import dataclass
 from collections.abc import Callable
 from numbers import Integral
@@ -126,19 +127,32 @@ def sample_scene(seed, signal_offset=7.):
                  signal_offset=signal_offset, light_angle=light_angle, spots=spots)
 
 
-def render(scene, size, samples=4, gradient_span=10., spot_amplitude=11.):
-    """Average subpixel radiance before quantization. Coordinates span [0, 1]."""
+def _sample_grid(size, samples):
     axis = (np.arange(size*samples, dtype=np.float32) + .5) / (size*samples)
-    x, y = np.meshgrid(axis, axis)
+    return np.meshgrid(axis, axis)
+
+
+def _pool(a, size, samples):
+    return a.reshape(size, samples, size, samples).mean(axis=(1, 3), dtype=np.float32)
+
+
+def signal_coverage(scene, size, samples=4):
+    x, y = _sample_grid(size, samples)
     lobes = np.zeros(x.shape, dtype=bool)
     for (cx, cy), shape in zip(scene.centers, scene.shapes):
         lobes |= shape(x-cx, y-cy)
     signal = lobes.copy()
     for bridge in scene.bridges:
         signal |= bridge.coverage(x, y, scene.centers)
-    def pool(a):
-        return a.reshape(size, samples, size, samples).mean(axis=(1, 3), dtype=np.float32)
+    return _pool(lobes, size, samples), _pool(signal, size, samples)
 
+
+def render(scene, size, samples=4, gradient_span=10., spot_amplitude=11.):
+    """Render the shared illumination fields used by the original benchmark."""
+    lobes, signal = signal_coverage(scene, size, samples)
+    x, y = _sample_grid(size, samples)
+    def pool(a):
+        return _pool(a, size, samples)
     angle = scene.light_angle
     lx, ly = np.cos(angle), np.sin(angle)
     rotated = ((x-.5)*lx + (y-.5)*ly) / (abs(lx)+abs(ly))
@@ -149,7 +163,7 @@ def render(scene, size, samples=4, gradient_span=10., spot_amplitude=11.):
                   diagonal=pool(100 + gradient_span*(1-x-y)/2),
                   rotated=pool(100+gradient_span*rotated),
                   local=pool(local))
-    return pool(lobes), pool(signal), fields
+    return lobes, signal, fields
 
 
 def signal_image(background, coverage, signal_offset):
@@ -159,9 +173,15 @@ def signal_image(background, coverage, signal_offset):
 
 def quantize(image, width, phase=0):
     """Return bin indices. Interior bins have width gray levels and offset phase."""
-    if width < 1 or 256 % width or not 0 <= phase < width:
-        raise ValueError("width must divide 256 and phase must be in [0, width)")
-    return np.clip(np.floor((image-phase)/width), 0, 256//width-1).astype(np.uint8)
+    width = np.floor(width)
+    if not 0 <= phase < width:
+        raise ValueError("Width must be positive integer; phase must be in [0, width)")
+    if width < 1 or 256 % width != 0:
+        if phase != 0 and phase != 256 % width:
+            raise ValueError("phase must be 0 or 256 % width when width does not divide 256")
+    values = np.clip(np.asarray(image, dtype=np.float64), 0, 255)
+    indices = np.floor((values - phase) / width)
+    return (indices + int(phase > 0)).astype(np.uint8)
 
 
 def boundary_survival(coverage, image, background, diagnostic, signal_offset=7.):
@@ -169,6 +189,7 @@ def boundary_survival(coverage, image, background, diagnostic, signal_offset=7.)
 
     An edge survives when its bin jump in the signal's contrast direction
     exceeds the jump already present in the illumination alone.
+    signal_offset can be a scalar or the full signal-minus-background field.
     """
     total = np.zeros(2, dtype=int)
     visible = np.zeros(2, dtype=int)
@@ -176,7 +197,13 @@ def boundary_survival(coverage, image, background, diagnostic, signal_offset=7.)
     for axis in (0, 1):
         inside = coverage >= .5
         step = np.diff(inside.astype(np.int8), axis=axis)
-        step *= int(np.sign(signal_offset))
+        polarity = np.sign(signal_offset)
+        if np.ndim(polarity):
+            # A crossing takes the contrast sign on the interior side.
+            before, after = ((polarity[:-1], polarity[1:]) if axis == 0 else
+                             (polarity[:, :-1], polarity[:, 1:]))
+            polarity = np.where(step > 0, after, before)
+        step = step * polarity
         jump = np.diff(image.astype(np.int16), axis=axis)*step
         light_jump = np.diff(background.astype(np.int16), axis=axis)*step
         survived = jump > np.maximum(0, light_jump)
