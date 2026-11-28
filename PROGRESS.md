@@ -526,3 +526,17 @@ Read it in order: after seeing the image, how plausible is the familiar width? T
 **My clarifications.** I matched the supplied picture against the saved pelican variants. Its periodic background has baseline 160. The final quantizer uses width 128 and phase 0, mapping intensities 0-127 to 64 and 128-255 to 192. The two visible tones come from quantizing the whole composite.
 
 **You restating your clarified intentions.** You wanted readers to see how this particular image was made and have the scripts to make more. You selected the pelican for the public demo and kept the full collection local.
+
+## November 27, 2026 — From scoring pelican drawings to proposing completions
+
+**You asked** whether the pelican prototype matched the encoder proposed in the writeup. You asked what OpenCV returns, how VSA could encode those edge chains, and how a semantic hint could change which fragments the model connects.
+
+**I did** check the pilot code and saved rankings and draft Section 9 in the local writeup. It explains how Edge Drawing uses Prewitt gradients to find anchors and trace chains. It documents the completed pilot and gives equations for binding chain geometry to position, inferring fragment assignments, and revising their probabilities with a hint. In the pilot's shared-start comparison on one portrait, SqueezeNet ranked the bill-tip drawing above the stripe drawing in 75 of 76 eligible layouts. The linked-chain scorer did so in 41 of 76. Both scored supplied drawings against the registered grayscale reference. [Two-tone pelican stimulus](outputs/grayscale_animal_faces/pelican_demo/quantized.png) · [Edge Drawing paper](https://doi.org/10.1016/j.jvcir.2012.05.004)
+
+**What needed a plain-language explanation.** OpenCV returns a list of ordered pixel positions for each chain. The pilot turns those chains into a histogram of where edges run and which way they point. A proposed VSA code would bind a fragment's geometry to its position so the model could use both in a grouping decision.
+
+**Your new ideas and questions.** Could a category hint such as “this is a pelican” help the model find where a broken bill edge should go without telling it the endpoint?
+
+**My clarifications.** The current pilot ranks preconstructed continuations by image similarity. The next experiment would let the model propose continuations from the two-tone image and use a fallible hint to revise their relative support. A learned shape prior could propose a tip that disappeared in quantization. The grayscale reference would be used for evaluation. This VSA and hint experiment is proposed.
+
+**You restating your clarified intentions.** You want the encoder to decide whether to connect the bill edge to an inferred tip, connect it to a stripe, or leave the gap open. A semantic hint should guide the model's own search for continuations, and the stimulus generator should supply the image and evaluation reference.
